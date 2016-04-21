@@ -357,7 +357,7 @@ function save_users(){
 /*add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
     return '<a href="/wp-login.php?action=lostpassword" class="forgot" >olvide contraseña</a>';
-}*//*
+}*//**/
 function admin_default_page() {
   return home_url("/dashboard/");
 }
@@ -386,4 +386,4 @@ function logout_page() {
     exit;
 }
 add_action('wp_logout','logout_page');
-add_filter( 'authenticate', 'verify_username_password', 1, 3);*/
+add_filter( 'authenticate', 'verify_username_password', 1, 3);
