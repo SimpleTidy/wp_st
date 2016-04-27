@@ -152,7 +152,78 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 /************************FUNCIONES BASICAS DEL BACKEND**********************************************/
-// Create custom post type
+add_action( 'init', 'st_post_type_package' );
+/*AGREGANDO TAXONOMIAS PARA LOS paquetes*/
+
+add_action( 'init', 'package_taxonomies' );
+
+function package_taxonomies() {
+	$label = array(
+	'name' => _x( 'Categorías', 'taxonomy general name' ),
+	'singular_name' => _x( 'Categoría', 'taxonomy singular name' ),
+	'search_items' =>  __( 'Buscar por Categoría' ),
+	'all_items' => __( 'Todos los Categorías' ),
+	'parent_item' => __( 'Categoría padre' ),
+	'parent_item_colon' => __( 'Categoría padre:' ),
+	'edit_item' => __( 'Editar Categoría' ),
+	'update_item' => __( 'Actualizar Categoría' ),
+	'add_new_item' => __( 'Añadir nuevo Categoría' ),
+	'new_item_name' => __( 'Nombre del nuevo Categoría' ),
+);
+	register_taxonomy( 'categoria_paquete', 'st_package', array(
+		'hierarchical' => true,
+		'labels' => $label,
+		'show_ui' => true,
+		'query_var' => true,
+		'rewrite' => array( 'slug' => 'categoria_paquete' ),
+	));
+}
+
+
+function st_post_type_package() {
+	register_post_type( 'st_package',
+		array(
+			'labels' => array(
+			    'name' => _x('Paquetes', 'post type general name'),
+			    'singular_name' => _x('Paquetes', 'post type singular name'),
+			    'add_new' => _x('Agregar Nuevo', 'Paquetes'),
+			    'add_new_item' => __('Agregar nuevo Paquete'),
+			    'edit_item' => __('Editar Paquete'),
+			    'new_item' => __('Nuevo Paquetes'),
+			    'all_items' => __('Todos los Paquetes'),
+			    'view_item' => __('Ver Paquetes'),
+			    'search_items' => __('Buscar Paquete'),
+			    'not_found' =>  __('Ningún paquetes encontrado'),
+			    'not_found_in_trash' => __('Ningún paquete en papelera'),
+			    'parent_item_colon' => '',
+			    'menu_name' => 'Paquete'
+			),
+		'public' => true,
+	    'publicly_queryable' => true,
+	    'show_ui' => true,
+	    'show_in_menu' => true,
+	    'query_var' => true,
+	    'rewrite' => false,
+	    'capability_type' => 'post',
+	    'has_archive' => true,
+	    'hierarchical' => false,
+	    'menu_position' => 5,
+  		'supports' => array( 'title', 'editor','author', 'revisions','thumbnail')
+
+		)
+	);
+}
+
+// Asociatate custom post type with a permalink
+
+global $wp_rewrite;
+$package_structure = 'paquetes/%st_package%/';
+$wp_rewrite->add_rewrite_tag("%st_package%", '([^/]+)', "st_package=");
+$wp_rewrite->add_permastruct('st_package', $package_structure, false);
+
+
+
+// Create custom post type products
 add_action( 'init', 'st_post_type_products' );
 
 function st_post_type_products() {
@@ -183,7 +254,7 @@ function st_post_type_products() {
 	    'has_archive' => true,
 	    'hierarchical' => false,
 	    'menu_position' => 5,
-  		'supports' => array( 'title', 'editor','author', 'revisions')
+  		'supports' => array( 'title', 'editor','author', 'revisions','thumbnail')
 
 		)
 	);
@@ -192,9 +263,9 @@ function st_post_type_products() {
 // Asociatate custom post type with a permalink
 
 global $wp_rewrite;
-$project_structure = 'productos/%st_service%/';
+$product_structure = 'productos/%st_products%/';
 $wp_rewrite->add_rewrite_tag("%st_products%", '([^/]+)', "st_products=");
-$wp_rewrite->add_permastruct('st_products', $project_structure, false);
+$wp_rewrite->add_permastruct('st_products', $product_structure, false);
 
 
 // Create custom post type
@@ -237,9 +308,9 @@ function st_post_type_service() {
 // Asociatate custom post type with a permalink
 
 global $wp_rewrite;
-$project_structure = 'servicios/%st_service%/';
+$service_structure = 'servicios/%st_service%/';
 $wp_rewrite->add_rewrite_tag("%st_service%", '([^/]+)', "st_service=");
-$wp_rewrite->add_permastruct('st_service', $project_structure, false);
+$wp_rewrite->add_permastruct('st_service', $service_structure, false);
 
 /*AGREGANDO TAXONOMIAS PARA LOS SERVICIOS*/
 
@@ -387,3 +458,104 @@ function logout_page() {
 }
 add_action('wp_logout','logout_page');
 add_filter( 'authenticate', 'verify_username_password', 1, 3);
+
+/* PROBANDO METABOXES */
+function custom_meta_box_markup($post)
+{
+    wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+    $prfx_stored_meta = get_post_meta( $post->ID , 'meta-product');
+
+    ?>
+
+        <div>
+        
+
+            
+            <?php
+            
+            $args = array(
+				'post_type' => 'st_products'
+			);
+			$products = get_posts($args);
+
+			foreach ($products as $product) {
+				setup_postdata($product);
+				//var_dump($prfx_stored_meta);
+				?>
+
+				<label for="<?php echo $product->ID; ?>">
+				<input type="checkbox" name="meta-box-checkbox[]" id="<?php echo $product->ID; ?>" value="<?php echo $product->ID; ?>" <?php 
+				$products_store =  $prfx_stored_meta[0];
+				foreach ($products_store as $product_store) {
+					if ($product->ID == $product_store) {
+						echo "checked";
+					}
+				}
+				//echo $product->ID; 
+				?>>
+				<?php echo $product->post_title; ?></label><br>
+
+				<?php
+				
+				# code...
+			}
+               /* $checkbox_value = get_post_meta($object->ID, "meta-box-checkbox", true);
+
+                if($checkbox_value == "")
+                {
+                    ?>
+                        <input name="meta-box-checkbox" type="checkbox" value="true">
+                    <?php
+                }
+                else if($checkbox_value == "true")
+                {
+                    ?>  
+                        <input name="meta-box-checkbox" type="checkbox" value="true" checked>
+                    <?php
+                }*/
+            ?>
+        </div>
+    <?php  
+}
+
+function add_custom_meta_box()
+{
+    add_meta_box("demo-meta-box", "Elige los productos para este paquete", "custom_meta_box_markup", "st_package", "normal", "high", null);
+}
+
+add_action("add_meta_boxes", "add_custom_meta_box");
+
+function save_custom_meta_box($post_id, $post, $update)
+{
+    if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
+        return $post_id;
+
+    if(!current_user_can("edit_post", $post_id))
+        return $post_id;
+
+    if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
+        return $post_id;
+
+    // Checks for input and saves
+    //if (isset($_POST[ 'meta-checkbox' ])) {
+    	$products_array = array();;
+    	$productos = $_POST[ 'meta-box-checkbox' ];
+	    for($i=0; $i < count($productos); $i++){
+		   echo $productos[$i];
+		   if (isset($productos[$i])) {
+		   		$products_array[] = $productos[$i];
+		   }
+		   
+		}
+
+		update_post_meta( $post_id, 'meta-product', $products_array );
+    //}
+    
+	/*if( isset( $_POST[ 'meta-checkbox' ] ) ) {
+	    update_post_meta( $post_id, 'meta-checkbox', 'yes' );
+	} else {
+	    update_post_meta( $post_id, 'meta-checkbox', '' );
+	}*/
+}
+
+add_action("save_post", "save_custom_meta_box", 10, 3);
