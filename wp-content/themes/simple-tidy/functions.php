@@ -486,11 +486,14 @@ function custom_meta_box_markup($post)
 				<label for="<?php echo $product->ID; ?>">
 				<input type="checkbox" name="meta-box-checkbox[]" id="<?php echo $product->ID; ?>" value="<?php echo $product->ID; ?>" <?php 
 				$products_store =  $prfx_stored_meta[0];
-				foreach ($products_store as $product_store) {
+				if (!empty($products_store)) {
+					foreach ($products_store as $product_store) {
 					if ($product->ID == $product_store) {
 						echo "checked";
 					}
 				}
+				}
+				
 				//echo $product->ID; 
 				?>>
 				<?php echo $product->post_title; ?></label><br>
