@@ -477,8 +477,8 @@ function custom_meta_box_markup($post)
 				'post_type' => 'st_products'
 			);
 			$products = get_posts($args);
-
-			foreach ($products as $product) {
+			if (!empty($products)) {
+				foreach ($products as $product) {
 				setup_postdata($product);
 				//var_dump($prfx_stored_meta);
 				?>
@@ -499,6 +499,9 @@ function custom_meta_box_markup($post)
 				
 				# code...
 			}
+			}
+
+			
                /* $checkbox_value = get_post_meta($object->ID, "meta-box-checkbox", true);
 
                 if($checkbox_value == "")
