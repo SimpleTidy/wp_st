@@ -568,3 +568,112 @@ function save_custom_meta_box($post_id, $post, $update)
 }
 
 add_action("save_post", "save_custom_meta_box", 10, 3);
+
+
+
+/*AGREGA LOS META A LOS SERVICIOS, CLIENTE,SERVICIO,PAQUETE*/
+function custom_meta_box_package($post)
+{
+    	$values = get_post_custom( $post->ID );
+			$args = array(
+				'post_type' => 'st_package'
+			);
+			$packages = get_posts($args);
+			//var_dump( $packages)
+			// print_r($values);
+			
+		?>
+
+		    <p>
+
+		        <select name="box_package" id="box_package">
+		        	<?php foreach ($packages as $package): setup_postdata($package);?>
+			            <option value="<?php echo $package->ID; ?>" <?php if(!empty($values) && ($values['package'][0] == $package->ID)) echo 'selected' ?>><?php echo ucwords($package->post_title); ?></option>
+			        <?php endforeach; ?>
+		        </select>
+		    </p>
+		<?php
+}
+function custom_meta_box_users($post)
+{
+    	$values = get_post_custom( $post->ID );
+			$args = array(
+				'role' => 'client_role',
+				'order' => 'ASC'
+			);
+			$clients = get_users($args);
+			// print_r($values);
+			
+		?>
+
+		    <p>
+
+		        <select name="box_user" id="box_user">
+		        	<?php foreach ($clients as $client): ?>
+			            <option value="<?php echo $client->ID; ?>" <?php if(!empty($values) && ($values['user'][0] == $client->ID)) echo 'selected' ?>><?php echo ucwords($client->display_name); ?></option>
+			        <?php endforeach; ?>
+		        </select>
+		    </p>
+		<?php
+}
+function custom_meta_box_server($post)
+{
+    	$values = get_post_custom( $post->ID );
+			$args = array(
+				'role' => 'server_role',
+				'order' => 'ASC'
+			);
+			$servers = get_users($args);
+			// print_r($values);
+			
+		?>
+		    <p>
+		        <select name="box_server" id="box_server">
+		        	<?php foreach ($servers as $server): ?>
+			            <option value="<?php echo $server->ID; ?>" <?php if(!empty($values) && ($values['server'][0] == $server->ID)) echo 'selected' ?>><?php echo ucwords($server->display_name); ?></option>
+			        <?php endforeach; ?>
+		        </select>
+		    </p>
+		<?php
+}
+
+function add_custom_meta_box_users()
+{
+    add_meta_box("demo-meta-box-user", "Elige el usuario que solicita el servicio", "custom_meta_box_users", "st_service", "normal", "high", null);
+    
+}
+function add_custom_meta_box_servers()
+{
+    
+   add_meta_box("demo-meta-box-server", "Elige la persona hará el servicio", "custom_meta_box_server", "st_service", "normal", "high", null);
+}
+function add_custom_meta_box_package()
+{
+    
+   add_meta_box("demo-meta-box-package", "Elige el paquete para este servicio", "custom_meta_box_package", "st_service", "normal", "high", null);
+}
+
+add_action("add_meta_boxes", "add_custom_meta_box_users");
+add_action("add_meta_boxes", "add_custom_meta_box_servers");
+add_action("add_meta_boxes", "add_custom_meta_box_package");
+
+/*GUARDAMOS LOS METAFIELDS DE LOS POST*/
+
+add_action( 'save_post', 'box_services_save' );
+function box_services_save( $post_id ){
+    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+
+    global $post;
+    if ($post->post_type == 'st_service'){
+
+	    if( isset( $_POST['box_server'] ) )
+	        update_post_meta( $post_id, 'server', esc_attr( $_POST['box_server'] ) );
+	    if( isset( $_POST['box_user'] ) )
+	        update_post_meta( $post_id, 'user', esc_attr( $_POST['box_user'] ) );
+	    if( isset( $_POST['box_package'] ) )
+	        update_post_meta( $post_id, 'package', esc_attr( $_POST['box_package'] ) );
+
+        update_post_meta( $post_id, 'ranking', 0);
+    }
+
+}
