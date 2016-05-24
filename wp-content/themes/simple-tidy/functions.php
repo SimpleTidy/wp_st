@@ -677,3 +677,79 @@ function box_services_save( $post_id ){
     }
 
 }
+
+/*CARGA DE PARTIALS EN LA PLATAFORMA*/
+
+add_action( 'admin_enqueue_scripts', 'my_enqueue' );
+function my_enqueue($hook) {
+    if( 'index.php' != $hook ) {
+	// Only applies to dashboard panel
+	return;
+    }
+        
+	wp_enqueue_script( 'ajax-script', plugins_url( '/js/script.js', __FILE__ ), array('jquery') );
+
+	// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+	wp_localize_script( 'ajax-script', 'ajax_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
+}
+
+
+function charge_template_server() {
+	get_template_part( 'template-parts/full-width','addserver' );
+	return;
+}
+add_action('wp_ajax_charge_template_server', 'charge_template_server');
+add_action('wp_ajax_nopriv_charge_template_server', 'charge_template_server');
+
+
+function charge_template_service() {
+	get_template_part( 'template-parts/full-width','addservice' );
+	return;
+}
+add_action('wp_ajax_charge_template_service', 'charge_template_service');
+add_action('wp_ajax_nopriv_charge_template_service', 'charge_template_service');
+
+/*FIN CARGA DE PARTIALS EN LA PLATAFORMA*/
+
+function data_service_form(){
+	// prepare arguments
+	$args  = array(
+	// search only for Authors role
+	'role' => 'server_role',
+	// order results by display_name
+	'orderby' => 'display_name'  );
+	$users_query = new WP_User_Query( $args );
+	$users = $users_query->get_results();
+	return $users;
+}
+function data_service_form_package(){
+
+	$package_query = new WP_Query(
+						array( 
+					        'post_type' => 'st_package'
+					    ) ); 
+	
+	return $package_query;
+}
+function save_sercivice(){
+	global $error;
+	$error = '';
+	if (isset($_POST['submit'])) {
+		if (isset($_POST['hour_init'])) {
+			echo $_POST['submited'];
+			echo "-";
+			echo $_POST['date'];
+			echo "-";
+			echo $_POST['package'];
+			echo "-";
+			echo $_POST['who'];
+			return 1;
+		}else{
+			return 0;
+		}
+		
+	}
+	
+	
+}

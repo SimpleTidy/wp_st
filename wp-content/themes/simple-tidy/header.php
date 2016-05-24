@@ -18,6 +18,9 @@
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 <link rel="stylesheet" type="text/css" href="<?php get_stylesheet_uri(); ?>">
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/bootstrap/css/bootstrap.min.css">
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/materialize.css">
+<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/materialize.min.css">
 
 <?php wp_head(); ?>
 </head>
