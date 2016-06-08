@@ -14,10 +14,25 @@
  * @since Twenty Twelve 1.0
  */
  ?>
+ <div class="loader">
+	 <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	 </div>
+ </div>
+ <div class="error-cont">Contenedor de errores</div>
 <form action="" method="POST" class="form_service">
 	<div class="one">
 		<h1>¡Haz click en el servidor que quieres elegir!</h1>
 		<?php
+		
 		// var_dump(data_service_form());
 		$users = data_service_form();
 		//var_dump($users[0]);
@@ -35,13 +50,13 @@
 			      <p></p>
 			    </div>
 			    <div class="card-reveal">
-			      <span class="card-title grey-text text-darken-4"><?php echo $user->display_name;?><i class="material-icons right">close</i></span>
+			      <span class="card-title grey-text text-darken-4"><?php echo $user->display_name;?> <i class="material-icons right">close</i></span>
 			      <p>Here is some more information about this product that is only revealed once clicked on.</p>
 			    </div>
 		  	</div>
 			
 				     
-	        	<input type="radio" style="visibility: hidden;" name="who" value="<?php echo $user->ID ?>" id="<?php echo $user->ID ?>" >
+	        	<input type="radio" style="visibility: hidden;" name="who" class="who" value="<?php echo $user->ID ?>" id="<?php echo $user->ID ?>" >
 	        	
 	        </label>
 			 <?php
@@ -61,7 +76,7 @@
 				$packages->the_post();
 			?>
 
-			<label class="frame col-md-12 package" for="<?php echo $packages->post->ID ?>" >
+			<label class="frame_package col-md-12 package" for="<?php echo $packages->post->ID ?>" >
 			
 			<?php
 				global $durat;
@@ -73,14 +88,18 @@
 				?>
 				<img class="col-md-3" src="<?php echo  wp_get_attachment_thumb_url( $meta["_thumbnail_id"][0] );?>" >
 					<div class="content-package col-md-9">
-					<div><?php the_title() ?></div>
-					<div><?php the_content() ?></div>      
-		        	<input type="radio" id="<?php echo $packages->post->ID ?>" style="visibility: hidden;" name="package" value="<?php echo $packages->post->ID ?>" >
-		        	<div>Precio: <?php echo $meta["price"][0]; ?></div> 
-		        	<div>Aposentos: <?php echo $meta["aposentos"][0]; ?></div> 
-		        	<div>Area de limpieza: <?php echo $meta["area_clean"][0]; ?> m²</div> 
-		        	<div><?php echo $meta["duracion"][0]; ?></div>  
-	        	</div>
+						<div><?php the_title() ?></div>
+						<div><?php the_content() ?></div>      
+			        	<input type="radio" class="package_aj" id="<?php echo $packages->post->ID ?>" style="visibility: hidden;" name="package" value="<?php echo $packages->post->ID ?>" >
+			        	<div>Precio: <?php echo $meta["price"][0]; ?></div> 
+			        	
+			        	
+			        	<div>Aposentos: <?php echo $meta["aposentos"][0]; ?></div> 
+			        	<div>Area de limpieza: <?php echo $meta["area_clean"][0]; ?> m²</div> 
+			        	<div>Duracion: <?php echo $meta["duracion"][0]; ?> Horas</div>  
+		        	</div>
+		        	<input type="hidden" class="end_service" value="<?php echo $meta["duracion"][0]; ?>">
+		        	<input type="hidden" class="price_service" value="<?php echo $meta["price"][0]; ?>">
 
 	        	
 				<?php
@@ -100,15 +119,21 @@
 	<div class="three">
 		<h1>¿Donde y cuando?</h1>
 		<div class="input-field col s6">
-          <input id="dir" type="text" >
+          <input id="dir" type="text" name="dir">
           <label for="first_name">Direccion del servicio</label>
         </div>
-		<input type="date" class="datepicker" name="date">
-		<input type="text" name="hour_init" value="" />
-		<input type="text" name="hour_final" value="<?php echo $durat ?>" />
+        <input type="hidden" class="sum_final_h">
+        <input type="hidden" class="price">
+		<input type="date" class="datepicker dateservice" name="date"/>
+		<input type="text" name="hour_init" id="hour_init" value="" class="timepicker" />
+		<input type="hidden" name="hour_init_real" id="hour_init_real" value=""/>
+		<div id="root-picker-outlet">
+		<input type="text" name="hour_final" id="hour_final" value="" disabled />
+		<input type="hidden" name="hour_final_real" id="hour_final_real" value=""/>
+		</div>
 		<input type="hidden" name="submited" value="1" />
 		<div class="back2">Atras</div>
-		<input type="submit" name="submit" value="reserva tu servicio ahora"></input>
+		<div id="submit-service">¡Reserva tu servicio ahora!</div>
 	</div>
 	
 </form>

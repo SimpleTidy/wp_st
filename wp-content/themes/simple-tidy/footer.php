@@ -25,11 +25,15 @@
 <?php wp_footer(); ?>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/picker.js"></script>
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/picker.time.js"></script>
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/legacy.js"></script>
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/css/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/materialize.min.js"></script>
-<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/picker.js"></script>
-<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/picker.date.js"></script>
-<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/legacy.js"></script>
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/moment.js"></script>
+
+
+
 
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/script.js"></script>
 </body>

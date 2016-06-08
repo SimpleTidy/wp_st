@@ -694,7 +694,10 @@ function my_enqueue($hook) {
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
 }
 
-
+function charge_template_allservice() {
+	get_template_part( 'template-parts/full-width','showservices' );
+	return;
+}
 function charge_template_server() {
 	get_template_part( 'template-parts/full-width','addserver' );
 	return;
@@ -732,24 +735,116 @@ function data_service_form_package(){
 	
 	return $package_query;
 }
-function save_sercivice(){
-	global $error;
-	$error = '';
-	if (isset($_POST['submit'])) {
-		if (isset($_POST['hour_init'])) {
-			echo $_POST['submited'];
-			echo "-";
-			echo $_POST['date'];
-			echo "-";
-			echo $_POST['package'];
-			echo "-";
-			echo $_POST['who'];
-			return 1;
-		}else{
-			return 0;
-		}
-		
-	}
+function check_sercivices($hi,$he,$date,$server){
 	
+$init = date( 'H:i:s', strtotime($hi) );
+$end = date( 'H:i:s', strtotime($he) );
+$args = array(
+    'post_type'  => 'st_service',
+    'meta_query' => array(
+       'relation' => 'AND',
+        array(
+            'key'     => 'server',
+            'value'   => $server
+        ),
+        array(
+            'key'     => 'estado',
+            'value'   => 'Abierto'
+        )
+        ,
+        array(
+            'key'     => 'date_service',
+            'value'   => $date
+        )
+        ,
+        array(
+        	'relation' => 'OR',
+	       
+	        array(
+	            'key'     => 'hora_inicio',
+	            'value'   => array($init, $end ),
+	            'compare'   => 'BETWEEN',
+	            'type'   => 'NUMERIC'
+	        ),
+	        array(
+	            'key'     => 'hora_fin',
+	            'value'   => array($init, $end ),
+	            'compare'   => 'BETWEEN',
+	            'type'   => 'NUMERIC'
+	        )
+ 			
+        	
+           
+
+        )
+        
+    )
+);
+$search_query = new WP_Query( $args );
+
+$min_max_values = array();
+if ( $search_query->have_posts() ) {
+
+    while( $search_query->have_posts() ) {
+
+        $search_query->the_post();
+        array_push( $min_max_values, get_the_ID() );
+
+    }
+
+}
+wp_reset_postdata();
+$resp = count($min_max_values);
+return $resp;
+}
+function save_sercivices(){
+	$client = get_current_user_id();
+	$who = $_POST['who'];
+	$package = $_POST['package'];
+
+	$date = $_POST['date'];
+	$hinit = $_POST['hinit'];
+	$hfinal = $_POST['hfinal'];
+	$dir = $_POST['dir'];
+	$price = $_POST['price'];
+	$estado = "Abierto";
+	$ranking = 0;
+
+	
+	
+	
+	if ( !empty($who) || !empty($package) || !empty($date) || !empty($hinit) || !empty($hfinal) || !empty($dir) || !empty($price)) {
+		$resp = check_sercivices($hinit,$hfinal,$date,$who);
+
+		if ($resp == 1) {
+			echo $resp;
+			die();
+		}
+		if ($resp == 0) {
+			// Create post object
+			$field_data = array(
+				'date_service' => $date,
+				'estado' => $estado,
+				'hora_inicio' => $hinit,
+				'hora_fin' => $hfinal,
+				'direccion' => $dir,
+				'price' => $price,
+			);
+			$post_data = array(
+								'post_type' => 'st_service',
+								'post_status' => 'publish'
+								);
+			$post_id = CFS()->save( $field_data, $post_data );
+			update_post_meta( $post_id, 'package', $package );
+    		update_post_meta( $post_id, 'user', $client );
+    		update_post_meta( $post_id, 'server', $who);
+    		update_post_meta( $post_id, 'ranking', $ranking);
+			
+		}
+	}
+
 	
 }
+add_action('wp_ajax_save_sercivices', 'save_sercivices');
+add_action('wp_ajax_nopriv_save_sercivices', 'save_sercivices');
+

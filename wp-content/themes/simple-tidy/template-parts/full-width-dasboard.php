@@ -1,36 +1,51 @@
 <?php /*Template Name: Dashboard*/ ?>
 
 <?php get_header();?>
-	<?php //while ( have_posts() ) : the_post(); ?>
+	<?php  ?>
 	<?php if ( is_user_logged_in() ) : ?>
-		<h1>Hola</h1>
+		
 		
 		<div class="work-area col-md-12">
 			<div class="col-md-2">
 				<ul class="main-list">
 					<li>Dashboard</li>
-					<li><div class="add_service">Solicitar Servicio</div></li>
 					<?php 
-					$current_user = wp_get_current_user();
-					if (current_user_can('administrator') ) {?>
-						<li>Configuracion
+					/*$current_user = wp_get_current_user(); 
+					if (current_user_can('server_role') ) {*/?>
+
+					<li><div class="show_my_job">Ver mis servicios</div></li>
+					<?php /*}*/ ?>
+					<?php 
+
+					/*$current_user = wp_get_current_user();
+					if (current_user_can('client_role') ) {*/?>
+
+					<li><div class="add_service">Solicitar Servicio</div></li>
+					<li><div class="show_service">Mis servicios</div></li>
+					<?php /*}*/ ?>
+					<?php 
+					/*$current_user = wp_get_current_user(); 
+					if (current_user_can('administrator') ) {*/?>
+						<li>Admin
 							<ul class="second-list">
+								<li><div class="show_services">Ver todos los servicios</div></li>
 								<li><div class="add_server">Agregar Servidor</div></li>
 								<li>Agregar Producto</li>
 								<li>Agregar Paquete</li>
 							</ul>
 						</li>
 						
-					<?php } ?>
-					<li>Buscar Servidores</li>
+					<?php /*}*/ ?>
+					
 					<li><a href="<?php echo wp_logout_url(home_url()); ?>">Logout</a></li>
 				</ul>
 			</div>
 			
 			<div class="col-md-10 load-content">
-				<div class="partial_dashboard content-panel init">Hola Dashboard</div>
+				<div class="partial_dashboard content-panel init"><?php $resp = check_sercivices("08:30:00","10:30:00","2016-05-27",2); echo $resp;?></div>
 				<div class="partial_service content-panel init"><?php charge_template_service(); ?></div>
 				<div class="partial_server content-panel init"><?php charge_template_server(); ?></div>
+				<div class="partial_all_services content-panel init"> <?php charge_template_allservice(); ?></div>
 				
 			</div>
 		</div>
