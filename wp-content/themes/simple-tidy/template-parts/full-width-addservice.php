@@ -119,8 +119,8 @@
 	<div class="three">
 		<h1>¿Donde y cuando?</h1>
 		<div class="input-field col s6">
-          <input id="dir" type="text" name="dir">
-          <label for="first_name">Direccion del servicio</label>
+          <input id="dir" type="text" name="dir" onFocus="geolocate()">
+          <!-- <label for="first_name">Direccion del servicio</label> -->
         </div>
         <input type="hidden" class="sum_final_h">
         <input type="hidden" class="price">

@@ -262,8 +262,79 @@
 
 	/*END OF ALL SERVICES*/
 
+	/*PROGAMING FOR LIST OF ALL SERVICES TO SERVERS*/
+	
+	$('div.show_my_job').on('click',function(event) {
+	//event.preventDefault();
+	//$('div.load-content').empty();
+	$('div.load-content div.content-panel').hide('fast/100/fast');
+	$('div.load-content div.content-panel').removeClass('init');
+	$('div.load-content div.content-panel').removeClass('active');
+	$('div.load-content div.partial_all_services_server').addClass('active');
+    //$('div.load-content').show('slow/400/fast');
+    $('div.load-content div.active').show('slow/400/fast');
+    
+	
+	});
+
+	/*END OF ALL SERVICES TO SERVICES*/
+
+	/*PROGAMING FOR LIST OF ALL SERVICES TO USERS*/
+	
+	$('div.show_service_user').on('click',function(event) {
+	//event.preventDefault();
+	//$('div.load-content').empty();
+	$('div.load-content div.content-panel').hide('fast/100/fast');
+	$('div.load-content div.content-panel').removeClass('init');
+	$('div.load-content div.content-panel').removeClass('active');
+	$('div.load-content div.partial_all_services_user').addClass('active');
+    //$('div.load-content').show('slow/400/fast');
+    $('div.load-content div.active').show('slow/400/fast');
+    
+	
+	});
+
+	/*END OF ALL SERVICES TO SERVICES*/
+
 
 
 
   /*Terminan los js*/
 }(jQuery));
+
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('dir')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}

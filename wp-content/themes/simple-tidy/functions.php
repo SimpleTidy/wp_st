@@ -152,6 +152,13 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 /************************FUNCIONES BASICAS DEL BACKEND**********************************************/
+function remove_admin_login_header() {
+	
+		    //show_admin_bar( false );
+		    add_filter( 'show_admin_bar', '__return_false' );
+		
+	
+}
 add_action( 'init', 'st_post_type_package' );
 /*AGREGANDO TAXONOMIAS PARA LOS paquetes*/
 
@@ -693,7 +700,14 @@ function my_enqueue($hook) {
 	wp_localize_script( 'ajax-script', 'ajax_object',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
 }
-
+function charge_template_allservice_server() {
+	get_template_part( 'template-parts/full-width','showservicesserver' );
+	return;
+}
+function charge_template_allservice_user() {
+	get_template_part( 'template-parts/full-width','showservicesuser' );
+	return;
+}
 function charge_template_allservice() {
 	get_template_part( 'template-parts/full-width','showservices' );
 	return;

@@ -25,9 +25,19 @@
 
 <?php wp_head(); ?>
 </head>
-
+<?php if ( ! current_user_can( 'administrator' ) ) { remove_admin_login_header(); ?>
+	<style type="text/css" media="screen">
+	html { margin-top: 0px !important; }
+	* html body { margin-top: 0px !important; }
+	@media screen and ( max-width: 782px ) {
+		html { margin-top: 46px !important; }
+		* html body { margin-top: 46px !important; }
+	}
+	</style>
+	<?php } ?>
 <body <?php body_class(); ?>>
 <div id="page" class="site">
+	
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'simple-tidy' ); ?></a>
 
 	<header id="masthead" class="site-header" role="banner">
