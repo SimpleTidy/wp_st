@@ -36,7 +36,7 @@
 						</li>
 						
 					<?php } ?>
-					
+					<li>Mi perfil</li>
 					<li><a href="<?php echo wp_logout_url(home_url()); ?>">Logout</a></li>
 				</ul>
 			</div>
