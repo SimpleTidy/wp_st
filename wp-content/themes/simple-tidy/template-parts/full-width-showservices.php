@@ -48,17 +48,21 @@
 					//echo $user_info->user_login;
 					//var_dump($meta);
 					?>
+					
 					<tr>
-			      
-				      <td><div class="profile_pic"><?php echo get_avatar( $user_info->ID );?></div><?php echo $user_info->user_login;?></td>
-				      <td><?php echo $meta["date_service"][0]?></td>
-				      <td><?php echo $meta["hora_inicio"][0]."-".$meta["hora_fin"][0]?></td>
-				      <td><div class="profile_pic"><?php echo get_avatar( $user_info->ID );?></div><?php echo $server_info->user_login;?></td>
-				      <td><?php $package =get_post($meta["package"][0]); echo $package->post_title;?></td>
-				      <td><?php echo $meta["price"][0]?></td>
-				      <td><?php echo$meta["estado"][0]?></td>
-				      <td><?php echo $meta["ranking"][0];?></td>
+				      	
+					      <td><div class="profile_pic"><?php echo get_avatar( $user_info->ID );?></div><?php echo $user_info->user_login;?></td>
+					      <td><?php echo $meta["date_service"][0]?></td>
+					      <td><?php echo $meta["hora_inicio"][0]."-".$meta["hora_fin"][0]?></td>
+					      <td><div class="profile_pic"><?php echo get_avatar( $user_info->ID );?></div><?php echo $server_info->user_login;?></td>
+					      <td><?php $package =get_post($meta["package"][0]); echo $package->post_title;?></td>
+					      <td><?php echo $meta["price"][0]?></td>
+					      <td><?php echo$meta["estado"][0]?></td>
+					      <td><?php echo $meta["ranking"][0];?></td>
+					      <td><a href="<?php echo get_permalink(); ?>" >ver detalles</a></td>
+					    
 				    </tr>
+				  
 					<?php
 					
 				}

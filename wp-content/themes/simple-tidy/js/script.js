@@ -21,6 +21,7 @@
 			$("div#formreg").show('slow/400/fast');
 			
 		});
+		$("div.alert").hide('slow/400/fast');
 		$('div.error-cont').hide('slow/400/fast');
 		$('div.loader').hide('slow/400/fast');
 		$('div.next2').hide('slow/400/fast');
@@ -54,7 +55,7 @@
 	});
 	
 
-	
+	/*PROGRAMING FOR ADD SERVER*/
 
 	$('div.add_server').on('click',function(event) {
 		//event.preventDefault();
@@ -90,6 +91,95 @@
 
 	    FIN DE CARGA*/
 	});
+
+
+	function showloaderinservers() {
+		$('form.form_server').hide('slow/100/fast');
+		$('div.loader').show('slow/400/fast');
+	}
+	function hideloaderinservers() {
+		
+		$('div.loader').hide('slow/400/fast');
+		$('form.form_server').show('slow/100/fast');
+	}
+	/*END OF PROGRAMING FOR SERVERS OPTION ADMIN*/
+	$('div#submit-server').on('click', function(event) {
+		//save_u
+		/*i_name
+		i_role
+		i_user
+		i_email
+		i_pass
+		i_pass2*/
+		event.preventDefault();
+		/* Act on the event */
+		var i_name = $("input[name='i_name']").val()
+		var i_role = $("input[name='i_role']").val()
+		var i_user = $("input[name='i_user']").val()
+		var i_email = $("input[name='i_email']").val()
+		var i_pass = $("input[name='i_pass']").val()
+		var i_pass2 = $("input[name='i_pass2']").val()
+	   	
+		showloaderinservers()
+		$.ajax({
+			type: 'POST',
+	        url: ajaxurl,
+	        data: {
+	            'action':'save_servers',
+	            'i_name': i_name,
+	            'i_role': i_role,
+	            'i_user': i_user,
+	            'i_email': i_email,
+	            'i_pass': i_pass,
+	            'i_pass2': i_pass2
+
+	        },
+	        success:function(resp) {
+	        	if (resp != 1) {
+	        		console.log(resp);
+	        		$("strong.bodymsg").text(resp)
+		        	$("div.alert").show('slow/400/fast');
+		        	hideloaderinservers();
+		        	return;
+	        	}
+	        	console.log(resp);
+	        	$("input[name='i_name']").val("")
+				$("input[name='i_role']").val("")
+				$("input[name='i_user']").val("")
+				$("input[name='i_email']").val("")
+				$("input[name='i_pass']").val("")
+				$("input[name='i_pass2']").val("")
+	        	hideloaderinservers();
+	        	setTimeout(function() {
+				        location.reload();
+				}, 1000);
+	        	
+	        	/*if (resp == 1) {
+	        		hideloaderinservices();
+	        		$('div.error-cont').show('slow/400/fast');
+	        		$('div.error-cont').text('Lamentablemente, ya hay un servicio para esta fecha. Intente con otro servidor o en otro dia.');
+	        	}
+	        	if (resp == 0) {
+	        		$('div.loader').hide('slow/400/fast');
+	        		$('div.error-cont').text('!Gracias¡, su reservacion ha sido procesada');
+	        		$('div.error-cont').show('slow/400/fast');
+	        		
+	        		setTimeout(function() {
+				        location.reload();
+				    }, 3000);
+	        	}*/
+	        	       	
+
+	        },
+	        error: function(errorThrown){
+	        	console.log("No contecta")
+	            console.log(errorThrown);
+
+	        }
+	    });
+
+	});
+
 	/*PROGRAMING JS FOR SERVICE PROCESS*/
 
 	$('div.add_service').on('click',function(event) {
@@ -295,7 +385,6 @@
 	});
 
 	/*END OF ALL SERVICES TO SERVICES*/
-
 
 
 

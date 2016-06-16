@@ -36,7 +36,11 @@
 
 
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/script.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuLZom0QnvAg0z9ETXhMpdWYiWzSuTkmA&signed_in=true&libraries=places&callback=initAutocomplete"
+<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script> -->
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuLZom0QnvAg0z9ETXhMpdWYiWzSuTkmA&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script> -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHE-DBdl_HM25FtAHYA0Nmjf47K3tZCx0&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer></script>
 </body>
 </html>

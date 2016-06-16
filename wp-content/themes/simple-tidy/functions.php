@@ -432,6 +432,72 @@ function save_users(){
 		
 	}
 }
+add_action('wp_ajax_save_servers', 'save_servers');
+add_action('wp_ajax_nopriv_save_servers', 'save_servers');
+
+function save_servers(){
+	
+	global $wpdb, $current_user;
+	
+	/*if (isset($_POST['save_u'])) {*/
+		if (!empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
+			if ($_POST['i_pass'] == $_POST['i_pass2']) {
+				if (email_exists( $_POST['i_email']) == false && username_exists( $_POST['i_user']  ) == false) {
+
+					
+					
+					$id_user = wp_create_user( $_POST['i_user'], $_POST['i_pass'], $_POST['i_email'] );
+					
+					$user = new WP_User($id_user);
+
+					if ($_POST['i_role'] == 1) {
+		                $user->add_role( 'client_role' );
+
+		            }
+		            if ($_POST['i_role'] == 2) {
+		                $user->add_role( 'server_role' );
+
+		            }
+		            echo 1;
+		            die();
+					/*wp_set_current_user($id_user);
+					wp_set_auth_cookie( $id_user);
+            		$login_page  = home_url();
+    				wp_redirect( $login_page."/dashboard/");*/
+				}else{
+					
+						
+						
+						echo "El usuario o el mail ya existen en nuestra plataforma";
+						die();
+					}
+			}else{
+
+				
+				
+				echo "Contraseñas no coinciden";
+				die();
+				
+			}
+			//$login_page  = home_url();
+    		//wp_redirect( $login_page );
+		}else{
+			if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
+				# code...
+				
+				
+				
+				echo "Tiene campos vacios";
+				die();
+			}
+
+			
+			
+		}
+		
+		
+	/*}*/
+}
 /*add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
     return '<a href="/wp-login.php?action=lostpassword" class="forgot" >olvide contraseña</a>';
