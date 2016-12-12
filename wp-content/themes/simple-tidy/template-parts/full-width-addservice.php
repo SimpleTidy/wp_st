@@ -28,6 +28,7 @@
 	 </div>
  </div>
  <div class="error-cont">Contenedor de errores</div>
+
 <form action="" method="POST" class="form_service">
 	<div class="one">
 		<h1>¡Haz click en el servidor que quieres elegir!</h1>
@@ -119,7 +120,7 @@
 	<div class="three">
 		<h1>¿Donde y cuando?</h1>
 		<div class="input-field col s6">
-          <input id="dir" type="text" name="dir" onFocus="geolocate()">
+          <input id="direccio" type="text" name="dir" placeholder="Introduce la direccion">
           <!-- <label for="first_name">Direccion del servicio</label> -->
         </div>
         <input type="hidden" class="sum_final_h">

@@ -12,7 +12,6 @@
  * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
- 
 */
 save_users(); 
 
@@ -134,13 +133,31 @@ get_header(); ?>
 	<div id="formreg">
 		
 		<form method="post" action="" onsubmit="return save_users()">
-			<input type="text" class="col-md-12" placeholder="Nombre" value="" name="i_name"></input>
-			<input type="text" class="col-md-12" placeholder="Usuario" value="" name="i_user"></input>
-			<input type="text" class="col-md-12" placeholder="Email" value="" name="i_email"></input>
-			<input type="text" class="col-md-12" placeholder="Contraseña" value="" name="i_pass"></input>
-			<input type="text" class="col-md-12" placeholder="Repita contraseña" value="" name="i_pass2"></input>
+			<div class="input-field col s12">
+	          <input type="text" class="validate" value="" name="i_name"></input>
+			  <label for="last_name">Nombre</label>
+	        </div>
+	        <div class="input-field col s12">
+	          <input type="text" class="validate" value="" name="i_user"></input>
+			  <label for="last_name">Usuario</label>
+	        </div>
+	        <div class="input-field col s12">
+	          <input type="text" class="validate" value="" name="i_email"></input>
+			  <label for="last_name">Correo</label>
+	        </div>
+	        <div class="input-field col s12">
+	          <input type="password" class="validate" value="" name="i_pass"></input>
+			  <label for="last_name">Contraseña</label>
+	        </div>
+	        <div class="input-field col s12">
+	          <input type="password" class="validate" value="" name="i_pass2"></input>
+			  <label for="last_name">Repita contraseña</label>
+	        </div>
+			
+			
+			
 			<input type="hidden" value="1" name="i_role"></input>
-			<input type="submit" value="Regístrate" name="save_u"></input>
+			<input type="submit" value="Regístrate" name="save_u" class="btn_reg"></input>
 		</form>
 		<a id="log">Ya tienes cuenta?. Inicia Sesión</a>
 	</div>

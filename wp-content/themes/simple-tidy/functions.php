@@ -709,7 +709,32 @@ function custom_meta_box_server($post)
 		    </p>
 		<?php
 }
+function custom_meta_box_service($post)
+{
+    	$values = get_post_custom( $post->ID );
+			$args = array(
+				'post_type' => 'st_service'
+			);
+			$services = get_posts($args);
+			//var_dump( $services)
+			//print_r($values);
+			
+		?>
 
+		    <p>
+
+		        <select name="box_service" id="box_service">
+		        	<?php foreach ($services as $service): setup_postdata($service);?>
+			            <option value="<?php echo $service->ID; ?>" 
+			            	<?php if(!empty($values) && ($values['service'][0] == $service->ID)) echo 'selected' ?>>
+			            		<?php echo ucwords($service->ID); ?>
+			            	
+			            </option>
+			        <?php endforeach; ?>
+		        </select>
+		    </p>
+		<?php
+}
 function add_custom_meta_box_users()
 {
     add_meta_box("demo-meta-box-user", "Elige el usuario que solicita el servicio", "custom_meta_box_users", "st_service", "normal", "high", null);
@@ -725,10 +750,15 @@ function add_custom_meta_box_package()
     
    add_meta_box("demo-meta-box-package", "Elige el paquete para este servicio", "custom_meta_box_package", "st_service", "normal", "high", null);
 }
-
+function add_custom_meta_box_services()
+{
+    add_meta_box("demo-meta-box-service", "Elige el Servicio a pagar", "custom_meta_box_service", "st_page", "normal", "high", null);
+    
+}
 add_action("add_meta_boxes", "add_custom_meta_box_users");
 add_action("add_meta_boxes", "add_custom_meta_box_servers");
 add_action("add_meta_boxes", "add_custom_meta_box_package");
+add_action("add_meta_boxes", "add_custom_meta_box_services");
 
 /*GUARDAMOS LOS METAFIELDS DE LOS POST*/
 
@@ -747,6 +777,12 @@ function box_services_save( $post_id ){
 	        update_post_meta( $post_id, 'package', esc_attr( $_POST['box_package'] ) );
 
         update_post_meta( $post_id, 'ranking', 0);
+    }
+    if ($post->post_type == 'st_page'){
+
+	    if( isset( $_POST['box_service'] ) )
+	        update_post_meta( $post_id, 'service', esc_attr( $_POST['box_service'] ) );
+	  
     }
 
 }
@@ -792,6 +828,13 @@ function charge_template_service() {
 }
 add_action('wp_ajax_charge_template_service', 'charge_template_service');
 add_action('wp_ajax_nopriv_charge_template_service', 'charge_template_service');
+
+function charge_template_newproduct() {
+	get_template_part( 'template-parts/full-width','newproduct' );
+	return;
+}
+add_action('wp_ajax_charge_template_newproduct', 'charge_template_newproduct');
+add_action('wp_ajax_nopriv_charge_template_newproduct', 'charge_template_newproduct');
 
 /*FIN CARGA DE PARTIALS EN LA PLATAFORMA*/
 
@@ -928,3 +971,113 @@ function save_sercivices(){
 add_action('wp_ajax_save_sercivices', 'save_sercivices');
 add_action('wp_ajax_nopriv_save_sercivices', 'save_sercivices');
 
+// Create custom post type for page
+add_action( 'init', 'st_post_type_page' );
+
+function st_post_type_page() {
+	register_post_type( 'st_page',
+		array(
+			'labels' => array(
+			    'name' => _x('Pagos', 'post type general name'),
+			    'singular_name' => _x('Pago', 'post type singular name'),
+			    'add_new' => _x('Agregar Nuevo', 'Pagos'),
+			    'add_new_item' => __('Agregar nuevo Pago'),
+			    'edit_item' => __('Editar Pago'),
+			    'new_item' => __('Nuevo Pago'),
+			    'all_items' => __('Todos los Pagos'),
+			    'view_item' => __('Ver Pago'),
+			    'search_items' => __('Buscar Pago'),
+			    'not_found' =>  __('Ningún servicio encontrado'),
+			    'not_found_in_trash' => __('Ningún servicio en papelera'),
+			    'parent_item_colon' => '',
+			    'menu_name' => 'Pagos'
+			),
+		'public' => true,
+	    'publicly_queryable' => true,
+	    'show_ui' => true,
+	    'show_in_menu' => true,
+	    'query_var' => true,
+	    'rewrite' => false,
+	    'capability_type' => 'post',
+	    'has_archive' => true,
+	    'hierarchical' => false,
+	    'menu_position' => 5,
+  		'supports' => array( 'title', 'editor','author', 'revisions')
+
+		)
+	);
+}
+
+// Asociatate custom post type with a permalink
+
+global $wp_rewrite;
+$page_structure = 'pagos/%st_page%/';
+$wp_rewrite->add_rewrite_tag("%st_page%", '([^/]+)', "st_page=");
+$wp_rewrite->add_permastruct('st_page', $page_structure, false);
+
+add_action('wp_ajax_save_page', 'save_page');
+add_action('wp_ajax_nopriv_save_page', 'save_page');
+
+function save_page(){
+	
+
+	$client = get_current_user_id();
+	$transaccion = $_POST['transaccion'];
+	$nameTrans = $_POST['nameTrans'];
+
+	$lastnameTrans = $_POST['lastnameTrans'];
+	$mountTrans = $_POST['mountTrans'];
+	$dateTrans = $_POST['dateTrans'];
+	$statusTrans = $_POST['statusTrans'];
+	$i_service = $_POST['service'];
+	
+	if (  !empty($transaccion) || !empty($nameTrans) || !empty($lastnameTrans) || !empty($mountTrans) || !empty($dateTrans) || !empty($statusTrans) || !empty($i_service)) {
+		
+			// Create post object
+			$field_data = array(
+				'name' => $nameTrans,
+				'n_trans' => $transaccion,
+				'lastname' => $lastnameTrans,
+				'mount_transac' => $mountTrans,
+				'date_transac' => $dateTrans,
+				'status_mount' => "Por Confirmar"
+			);
+			$post_data = array(
+								'post_type' => 'st_page',
+								'post_status' => 'publish'
+								);
+			$post_id = CFS()->save( $field_data, $post_data );
+			update_post_meta( $post_id, 'service', $i_service );
+			$resp = array('error' => false, 'content' => "El pago fue registrado con exito",'data' => get_post_meta($post_id));
+			echo json_encode($resp);
+			die();
+			
+		
+	}else{
+		$resp = array('error' => true, 'content' => "No pueden haber campos vacios en los datos del pago");
+		echo json_encode($resp);
+		die();
+	}
+}
+
+function check_pay_for_service($value)
+{	
+	$args = array(
+    'post_type'  => 'st_page',
+    'meta_key' => 'service',
+    'meta_value'   => $value, 
+	'meta_compare' => '=',
+        
+    );
+	$my_query = new WP_Query($args);
+	if ( $my_query->have_posts() ){
+
+	     return true;
+
+	} else {
+	    return false;
+	}
+
+	
+
+}

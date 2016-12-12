@@ -19,9 +19,11 @@
 <link rel="stylesheet" type="text/css" href="<?php get_stylesheet_uri(); ?>">
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/bootstrap/css/bootstrap.min.css">
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/materialize.css">
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url');?>/css/materialize.min.css">
 <link rel="stylesheet" href=".<?php bloginfo('template_url');?>/css/default.time.css">
+<script src="https://use.fontawesome.com/83789b7aa5.js"></script>
 
 <?php wp_head(); ?>
 </head>
@@ -42,11 +44,13 @@
 
 	<header id="masthead" class="site-header" role="banner">
 		
+		<?php if ( !is_user_logged_in() ) : ?>
 
 		<nav id="site-navigation" class="main-navigation" role="navigation">
 			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'simple-tidy' ); ?></button>
 			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
 		</nav><!-- #site-navigation -->
+		<?php endif; ?>
 	</header><!-- #masthead -->
-
+	
 	<div id="content" class="site-content">

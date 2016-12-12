@@ -51,6 +51,10 @@
 	        $("#hour_final_real").val(endr);
 	    }
 	    $(document).on("change", "#hour_init", updatetime);
+	    $("i.clickefect").on("click",function () {
+			$("div.menu-total").toggleClass('showMenu');
+			$("div.work-area").toggleClass('showMenuContent');
+		});
 		
 	});
 	
@@ -58,6 +62,7 @@
 	/*PROGRAMING FOR ADD SERVER*/
 
 	$('div.add_server').on('click',function(event) {
+		console.log("hola")
 		//event.preventDefault();
 		//$('div.load-content').empty();
 		$('div.load-content div.content-panel').hide('fast/100/fast');
@@ -386,6 +391,138 @@
 
 	/*END OF ALL SERVICES TO SERVICES*/
 
+	/*PROGAMING FOR LIST OF new product*/
+	
+	$('div.add_product').on('click',function(event) {
+	//event.preventDefault();
+	//$('div.load-content').empty();
+	$('div.load-content div.content-panel').hide('fast/100/fast');
+	$('div.load-content div.content-panel').removeClass('init');
+	$('div.load-content div.content-panel').removeClass('active');
+	$('div.load-content div.partial_new_product').addClass('active');
+    //$('div.load-content').show('slow/400/fast');
+    $('div.load-content div.active').show('slow/400/fast');
+    
+	
+	});
+
+	/*END OF new product*/
+
+	$('span.click_appear').on('click', function() {
+		
+		$('div.head-detail span').toggleClass('appear');
+	});
+
+	$('div.proced-page').on('click', function() {
+		
+		$('div.info-service-page').show('slow/200/fast');
+		var $target = $('html,body'); 
+		setTimeout(function() {
+		        $target.animate({scrollTop: $target.height()}, 2000);
+		}, 500);
+		
+		
+	});
+
+	$('div.out-page').on('click', function() {
+		
+		$('div.info-service-page').hide('slow/50/fast');
+	});
+
+
+	$('div#SubmitPage').on('click', function() {
+		
+		/*event.preventDefault();*/
+
+		var transaccion = $("input[name='transaccion']").val()
+		var nameTrans = $("input[name='nameTrans']").val()
+		var lastnameTrans = $("input[name='lastnameTrans']").val()
+		var mountTrans = $("input[name='mountTrans']").val()
+		var dateTrans = $("input[name='dateTrans']").val()
+		var statusTrans = $("input[name='statusTrans']").val()
+		var service = $("input[name='id_service']").val()
+		$('.loader.loader_pay').show('slow/200/fast');
+		/*showloaderinservers()*/
+
+
+	
+		$.ajax({
+			type: 'POST',
+	        url: ajaxurl,
+	        data: {
+	            'action':'save_page',
+	            'transaccion': transaccion,
+	            'nameTrans': nameTrans,
+	            'lastnameTrans': lastnameTrans,
+	            'mountTrans': mountTrans,
+	            'dateTrans': dateTrans,
+	            'statusTrans': statusTrans,
+	            'service': service
+
+	        },
+	        success:function(resp) {
+	        	var resParse = JSON.parse(resp)
+	        	if (resParse.error) {
+	        		console.log(resParse.content);
+	        		$("div.error_cont p").text(resParse.content)
+	        		$("div.error_cont").css('opacity', '1');
+	        		$('.loader.loader_pay').hide('slow/200/fast');
+	        	}else{
+	        		$("input[name='transaccion']").val("")
+					$("input[name='nameTrans']").val("")
+					$("input[name='lastnameTrans']").val("")
+					$("input[name='mountTrans']").val("")
+					$("input[name='dateTrans']").val("")
+					$("input[name='statusTrans']").val("")
+					$("input[name='id_service']").val("")
+	        		$("div.error_cont p").text(resParse.content)
+	        		$("div.error_cont p").addClass('success')
+	        		$("div.error_cont").css('opacity', '1');
+	        		setTimeout(function() {
+	        			$('.loader.loader_pay').hide('slow/200/fast');
+					    location.reload();
+					}, 500);
+
+	        	}
+	        	/*if (resp != 1) {
+	        		console.log(resp);
+	        		$("strong.bodymsg").text(resp)
+		        	$("div.alert").show('slow/400/fast');
+		        	hideloaderinservers();
+		        	return;
+	        	}
+	        	console.log(resp);
+	        	
+	        	hideloaderinservers();
+	        	setTimeout(function() {
+				        location.reload();
+				}, 1000);*/
+	        	
+	        	/*if (resp == 1) {
+	        		hideloaderinservices();
+	        		$('div.error-cont').show('slow/400/fast');
+	        		$('div.error-cont').text('Lamentablemente, ya hay un servicio para esta fecha. Intente con otro servidor o en otro dia.');
+	        	}
+	        	if (resp == 0) {
+	        		$('div.loader').hide('slow/400/fast');
+	        		$('div.error-cont').text('!Gracias¡, su reservacion ha sido procesada');
+	        		$('div.error-cont').show('slow/400/fast');
+	        		
+	        		setTimeout(function() {
+				        location.reload();
+				    }, 3000);
+	        	}*/
+	        	       	
+
+	        },
+	        error: function(errorThrown){
+	        	console.log("No contecta")
+	            console.log(errorThrown);
+
+	        }
+	    });
+
+	});
 
 
   /*Terminan los js*/

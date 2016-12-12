@@ -1,4 +1,4 @@
-/*
+/* 
 Theme Name: Simple Tidy
 Theme URI: http://underscores.me/
 Author: Underscores.me
@@ -989,4 +989,251 @@ div.init{
     display: block;
     text-align: center !important;
     overflow: hidden;
+}
+div#map{
+	height: 250px;
+}
+iframe.map_detail{
+	display: block;
+    margin: 0px auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+}
+.head-detail h1 {
+    margin: 20px auto;
+    width: 60%;
+    background: #efefef;
+    padding: 0.3em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    overflow: hidden;
+}
+.head-detail span {
+    float: right;
+    margin-right: -182px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    cursor: pointer;
+}
+.head-detail span h4 {
+    font-size: 16px;
+    display: initial;
+}
+/*SHOW DATE IN HEDAER DETAIL*/
+span.appear{
+	margin-right: 0px;
+}
+.head-detail h1 span img {
+    margin: 0px 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.panels-content-detail {
+    width: 60%;
+    margin: 0px auto;
+    padding: 10px 0px;
+}
+.content-detail {
+    width: 100%;
+    margin: 10px 0px;
+    display: table;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.info-service {
+    width: 59%;
+    float: left;
+    margin-right: 1%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	padding: 5px 10px;
+	position: relative;
+	margin-bottom: 20px;
+}
+.info-server {
+    width: 39%;
+    float: left;
+    margin-left: 1%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    padding: 5px 10px;	
+    position: relative;
+}
+hr {
+    border-top: 0px solid #DDD;
+    margin: 2px 0px;
+    margin-bottom: 10px;
+}
+img.header-info-img {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+.content-detail-print {
+    min-height: 100px;
+    padding: 0px 5% 10px;
+    font-weight: 100;
+    font-size: 12px;
+}
+.data-service-ind {
+    font-weight: 600;
+}
+img.icon-detail {
+    width: 16px;
+}
+span.tittle-detail-section {
+    font-weight: 100;
+}
+.name-detail-service {
+    text-align: center;
+    padding: 5%;
+    font-weight: 700;
+}
+.user_profile_detail img {
+    display: block;
+    margin: 0px auto;
+}
+div.info-service-page{
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	padding: 5px 10px;
+	position: relative;
+	height: 405px;
+}
+.btn-options {
+    width: auto;
+    display: inline;
+    float: right;
+    padding: 5px;
+    margin: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  	color: #fff;
+  	cursor: pointer;
+  	font-weight: bold;
+}
+div.read-page,div.proced-page {
+    background-color: #317E14;
+}
+div.out-page,div.erase-page {
+    background-color: #ba3131;
+}
+.error_cont {
+    display: table;
+    float: left;
+    padding: 10px 5% 0px;
+    color: #fe3e3e;
+    min-height: 56px;
+    transition: all 1s;
+    opacity: 0;
+}
+div.error_cont p {
+    background-color: #CF3939;
+    padding: 1%;
+    color: #fff;
+}
+.loader.loader_pay {
+    position: absolute;
+    top: 35%;
+    display: block;
+    width: 100%;
+    z-index: 9;
+}
+.loader.loader_pay .preloader-wrapper.big.active{
+    margin: 0px auto !important;
+    display: block;
+}
+div.error_cont p.success {
+    background-color: #195a2a;
+}
+
+div#formlog {
+    width: 30%;
+    margin: 10vh auto;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 2%;
+    background-color: #fff;
+}
+div#formreg{
+	width: 30%;
+    margin: 5vh auto;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 2%;
+    background-color: #fff;
+}
+input#wp-submit {
+    border-radius: initial;
+    border: initial;
+    box-shadow: initial;
+    float: right;
+    background-color: #e48900;
+    text-shadow: initial;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem !important;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+div#formreg .btn_reg{
+	border-radius: initial;
+    border: initial;
+    box-shadow: initial;
+    float: right;
+    background-color: #e48900;
+    text-shadow: initial;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem !important;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+input#wp-submit:hover {
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+div#formreg .btn_reg:hover {
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+p.login-remember {
+    display: none;
+}
+body {
+    background: #e6e6e6;
+    font-family: 'Lato', sans-serif;
+}
+div.menu-total {
+    position: fixed;
+    height: 100vh;
+    background-color: #5f5f5f;
+    color: #fff;
+    width: 17%;
+    z-index: 1;
+    transform: translateX(-100%);
+    transition: all 0.3s ease
+}
+div.site-content{
+    overflow: hidden;
+}
+.work-area {
+    display: block;
+    margin: 0px auto;
+    float: none;
+	transition: all 0.3s ease;
+	padding-top: 10px;
+}
+div.menu-total.showMenu{
+	transform: translateX(0%);
+}
+div.work-area.showMenuContent{
+	transform: translateX(17%);
+}
+div.load-content {
+    padding-top: 20px;
+}
+footer#colophon {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
