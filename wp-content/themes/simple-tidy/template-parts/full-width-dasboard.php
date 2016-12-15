@@ -28,8 +28,8 @@
 						<ul class="second-list">
 							<li><div class="show_services">Ver todos los servicios</div></li>
 							<li><div class="add_server">Agregar Servidor</div></li>
-							<li><div class="add_product">Agregar Producto</div></li>
-							<li>Agregar Paquete</li>
+							<!-- <li><div class="add_product">Agregar Producto</div></li>
+							<li>Agregar Paquete</li> -->
 						</ul>
 					</li>
 					

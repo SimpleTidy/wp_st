@@ -293,7 +293,7 @@
 		var hinit = $('#hour_init_real').val()
 		var hfinal = $('#hour_final_real').val()
 		var date = $("input[name='date']").val()
-		var dir = $("#dir").val()
+		var dir = $("#direccio").val()
 		var price = $(".price").val()
 	   
 		showloaderinservices();
@@ -423,12 +423,26 @@
 		
 		
 	});
+	$('div#RtingServiceEnd').on('click', function() {
+		
+		$('div.info-rating-page').show('slow/200/fast');
+		var $target = $('html,body'); 
+		setTimeout(function() {
+		        $target.animate({scrollTop: $target.height()}, 2000);
+		}, 500);
+		
+		
+	});
 
 	$('div.out-page').on('click', function() {
 		
 		$('div.info-service-page').hide('slow/50/fast');
 	});
 
+	$('div.out-rating').on('click', function() {
+		
+		$('div.info-rating-page').hide('slow/50/fast');
+	});
 
 	$('div#SubmitPage').on('click', function() {
 		
@@ -523,6 +537,103 @@
 	    });
 
 	});
+	/*aceptar pago*/
+	$('div#confirmPageBtn').on('click', function() {
+		
+		/*event.preventDefault();*/
+
+		var servicio = $("input[name='id_service']").val()
+		var pago = $("input[name='id_page']").val()
+
+
+	
+		$.ajax({
+			type: 'POST',
+	        url: ajaxurl,
+	        data: {
+	            'action':'confirm_page',
+	            'servicio': servicio,
+	            'pago': pago
+
+	        },
+	        success:function(resp) {
+	        	console.log(resp)
+	        	if (resp == "OK") {
+	        		setTimeout(function() {
+	        			$('.loader.loader_pay').hide('slow/200/fast');
+					    location.reload();
+					}, 500);
+	        	};
+	        	
+	        	
+	        	       	
+
+	        },
+	        error: function(errorThrown){
+	        	console.log("No contecta")
+	            console.log(errorThrown);
+
+	        }
+	    });
+
+	});
+	/*Cerrar el ciclo*/
+	$('div#SubmitEnd').on('click', function() {
+		
+		/*event.preventDefault();*/
+		if ($("input#rating-input-1-5").is(":checked")) {
+			var ranking = $("input#rating-input-1-5").val()
+		};
+		if ($("input#rating-input-1-4").is(":checked")) {
+			var ranking = $("input#rating-input-1-4").val()
+		};
+		if ($("input#rating-input-1-3").is(":checked")) {
+			var ranking = $("input#rating-input-1-3").val()
+		};
+		if ($("input#rating-input-1-2").is(":checked")) {
+			var ranking = $("input#rating-input-1-2").val()
+		};
+		if ($("input#rating-input-1-1").is(":checked")) {
+			var ranking = $("input#rating-input-1-1").val()
+		};
+		
+		var coment = $("textarea#textarea1").val()
+		var service = $("input[name='id_service']").val()
+		
+
+	
+		$.ajax({
+			type: 'POST',
+	        url: ajaxurl,
+	        data: {
+	            'action':'end_service',
+	            'servicio': service,
+	            'coment': coment,
+	            'ranking': ranking
+
+
+	        },
+	        success:function(resp) {
+	        	console.log(resp)
+	        	if (resp == "OK") {
+	        		setTimeout(function() {
+	        			$('.loader.loader_pay').hide('slow/200/fast');
+					    location.reload();
+					}, 500);
+	        	};
+	        	
+	        	
+	        	       	
+
+	        },
+	        error: function(errorThrown){
+	        	console.log("No contecta")
+	            console.log(errorThrown);
+
+	        }
+	    });
+
+	});
 
 
   /*Terminan los js*/
@@ -542,12 +653,31 @@ function initAutocomplete() {
   // Create the autocomplete object, restricting the search to geographical
   // location types.
   autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('dir')),
+ (document.getElementById('direccio')),
       {types: ['geocode']});
 
   // When the user selects an address from the dropdown, populate the address
   // fields in the form.
   autocomplete.addListener('place_changed', fillInAddress);
+}
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
 }
 function geolocate() {
   if (navigator.geolocation) {
@@ -564,3 +694,74 @@ function geolocate() {
     });
   }
 }
+
+
+/*function initMap() {
+ 
+  var input = (
+      document.getElementById('direccio'));
+
+  var types = document.getElementById('type-selector');
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29)
+  });
+
+  autocomplete.addListener('place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+  });
+
+  // Sets a listener on a radio button to change the filter type on Places
+  // Autocomplete.
+  function setupClickListener(id, types) {
+    var radioButton = document.getElementById(id);
+    radioButton.addEventListener('click', function() {
+      autocomplete.setTypes(types);
+    });
+  }
+
+  setupClickListener('changetype-all', []);
+  setupClickListener('changetype-address', ['address']);
+  setupClickListener('changetype-establishment', ['establishment']);
+  setupClickListener('changetype-geocode', ['geocode']);
+}*/

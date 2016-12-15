@@ -33,12 +33,12 @@
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/materialize.min.js"></script>
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/moment.js"></script>
 <script type="text/javascript">
-  function initAutocomplete() {
+ /* function initAutocomplete() {
   var input = document.getElementById("direccio");
           var options = {
           types: ['geocode'],
         };
-  var autocomplete = new google.maps.places.Autocomplete(input, options);
+  var autocomplete = new google.maps.places.Autocomplete(input);
    
   google.maps.event.addListener(autocomplete, 'place_changed', function(e) {
 
@@ -48,7 +48,12 @@
       return;
     }
   });
-}
+}*/
+
+
+
+
+
 </script>
 
 

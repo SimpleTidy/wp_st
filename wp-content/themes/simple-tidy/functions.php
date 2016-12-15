@@ -1059,24 +1059,133 @@ function save_page(){
 		die();
 	}
 }
+add_action('wp_ajax_confirm_page', 'confirm_page');
+add_action('wp_ajax_nopriv_confirm_page', 'confirm_page');
+function confirm_page(){
+	$servicio = $_POST['servicio'];
+	$pago = $_POST['pago'];
 
+	if (!empty($servicio) && !empty($pago)) {
+		update_post_meta($pago, "status_mount", "Confirmado");
+		update_post_meta($servicio, "estado", "Reservado");
+		echo "OK";
+		die();
+	}
+}
 function check_pay_for_service($value)
 {	
+	global $post;
 	$args = array(
-    'post_type'  => 'st_page',
-    'meta_key' => 'service',
-    'meta_value'   => $value, 
-	'meta_compare' => '=',
+	    'post_type'  => 'st_page',
+	    'meta_query' => array(
+			array(
+				'key'     => 'service',
+				'value'   => $value,
+				'compare' => '=',
+			),
+		),
         
     );
-	$my_query = new WP_Query($args);
-	if ( $my_query->have_posts() ){
-
-	     return true;
-
-	} else {
-	    return false;
+    global $wpdb;
+    global $wpdb;
+	$results = $wpdb->get_results( "select post_id, meta_key from $wpdb->postmeta where meta_value = '".$value."'", ARRAY_A );
+	/*$my_query = new WP_Query( array( 'post_type' => 'st_page', 'meta_key' => "service", 'meta_value' => $value ) );
+	if( $my_query->have_posts() ) {
+	  while( $my_query->have_posts() ) {
+	    $my_query->the_post();
+	    
+			
+	    // Do your work...
+	  } // end while
+	  return $array;
+	} // end if
+	wp_reset_postdata();*/
+	
+	if (count($results) == 1) {
+		
+		$array = array(
+		    "exist" => true,
+		    "meta" => $results[0]["post_id"]
+		);
+		return $array;
+	}else{
+		if (count($results) == 0) {
+				$array = array(
+			    "exist" => false
+			);
+			return $array;
+		}
+		
 	}
+	
+
+	
+
+}
+add_action('wp_ajax_end_service', 'end_service');
+add_action('wp_ajax_nopriv_end_service', 'end_service');
+function end_service(){
+	$servicio = $_POST['servicio'];
+	$coment = $_POST['coment'];
+	$ranking = $_POST['ranking'];
+
+	if (!empty($servicio) && !empty($coment) && !empty($ranking)) {
+		update_post_meta($servicio, "ranking", $ranking);
+		update_post_meta($servicio, "estado", "Terminado");
+		update_post_meta($servicio, 'comentarioFinal', $coment);
+		echo "OK";
+		die();
+	}
+}
+function check_data_server($id)
+{	
+	global $post;
+	$args = array(
+	    'post_type'  => 'st_service',
+	    'meta_query' => array(
+	    	'relation'  => 'AND',
+			array(
+				'key'     => 'server',
+				'value'   => $id,
+				'compare' => '=',
+			),
+			array(
+				'key'     => 'estado',
+				'value'   => "Terminado",
+				'compare' => '=',
+			),
+		),
+        
+    );
+    $query = new WP_Query($args);
+    $posts = $query->get_posts();
+    $ids = array();
+    $totalP = 0;
+    global $rankings;
+    foreach($posts as $post) {
+	    // Do your stuff, e.g.
+	    // echo $post->post_name;
+	    $idP=$post->ID;
+	    $metas = get_post_meta($idP);
+	    $rankings = $rankings + $metas["ranking"][0];
+	    array_push($ids, $idP);
+  
+	    
+	    
+	}
+	$totalSer = count($ids);
+	if ($totalSer > 0) {
+		$totalP = $rankings / $totalSer;
+	}else{
+		$totalP = 0;
+	}
+	
+    $field_data = array(
+		'ranking' => $totalP,
+		'servicios' => $totalSer
+	);
+   	return $field_data;
+	
 
 	
 

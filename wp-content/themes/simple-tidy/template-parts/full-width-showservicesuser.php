@@ -66,6 +66,7 @@
 				      <td><?php echo $meta["price"][0]?></td>
 				      <td><?php echo$meta["estado"][0]?></td>
 				      <td><?php echo $meta["ranking"][0];?></td>
+				       <td><a href="<?php echo get_permalink(); ?>" >ver detalles</a></td>
 				    </tr>
 					<?php
 					
