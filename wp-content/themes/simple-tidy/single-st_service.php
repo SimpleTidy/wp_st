@@ -41,7 +41,6 @@ get_header(); ?>
 	$date_service = new DateTime($meta["date_service"][0]);
 	$hoy = new DateTime();
 	$check = check_pay_for_service($id);
-	var_dump($meta)
 
 
 ?>

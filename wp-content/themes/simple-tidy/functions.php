@@ -1190,3 +1190,157 @@ function check_data_server($id)
 	
 
 }
+
+function data_dashboard_server($id)
+{	
+	global $post;
+	$args = array(
+	    'post_type'  => 'st_service',
+	    'meta_query' => array(
+	    	'relation'  => 'AND',
+			array(
+				'key'     => 'server',
+				'value'   => $id,
+				'compare' => '=',
+			),
+			array(
+				'key'     => 'estado',
+				'value'   => "Terminado",
+				'compare' => '=',
+			),
+		),
+        
+    );
+    $query = new WP_Query($args);
+    $posts = $query->get_posts();
+    $ids = array();
+    $totalP = 0;
+    global $rankings;
+    foreach($posts as $post) {
+	    // Do your stuff, e.g.
+	    // echo $post->post_name;
+	    $idP=$post->ID;
+	    $metas = get_post_meta($idP);
+	    $rankings = $rankings + $metas["ranking"][0];
+	    array_push($ids, $idP);
+  
+	    
+	    
+	}
+	$totalSer = count($ids);
+	if ($totalSer > 0) {
+		$totalP = $rankings / $totalSer;
+	}else{
+		$totalP = 0;
+	}
+	
+    $field_data = array(
+		'ranking' => $totalP,
+		'servicios' => $totalSer
+	);
+   	return $field_data;
+	
+
+	
+
+}
+function data_dashboard_client($id)
+{	
+	global $post;
+	$args = array(
+	    'post_type'  => 'st_service',
+	    'meta_query' => array(
+	    	'relation'  => 'AND',
+			array(
+				'key'     => 'user',
+				'value'   => $id,
+				'compare' => '=',
+			),
+			array(
+				'key'     => 'estado',
+				'value'   => "Terminado",
+				'compare' => '=',
+			),
+		),
+        
+    );
+    $query = new WP_Query($args);
+    $posts = $query->get_posts();
+    $ids = array();
+    $thours = array();
+    $totalP = 0;
+    global $horas;
+    foreach($posts as $post) {
+	    // Do your stuff, e.g.
+	    // echo $post->post_name;
+	    $idP=$post->ID;
+	    $metas = get_post_meta($idP);
+
+	    $hi = strtotime($metas["hora_inicio"][0]);
+	    $hf = strtotime($metas["hora_fin"][0]);
+	
+	    $resta = $hf - $hi;
+	    $horas = $horas + $resta;
+	    array_push($ids, $idP);
+  
+	    
+	    
+	}
+	$totalSer = count($ids);	
+    $field_data = array(
+		'ranking' => $horas,
+		'servicios' => $totalSer
+	);
+   	return $field_data;
+	
+
+	
+
+}
+
+function data_dashboard_admin()
+{	
+	global $post;
+	$args = array('post_type'  => 'st_service');
+    $query = new WP_Query($args);
+    $posts = $query->get_posts();
+    $ids = array();
+    $thours = array();
+    $totalP = 0;
+    global $horas;
+    global $wpdb;
+	$user_search = new WP_User_Query( array( 'role' => 'client_role' ) );
+	$user_list   = $user_search->get_results();
+	$user_count  = $wpdb->num_rows;
+
+	$server_search = new WP_User_Query( array( 'role' => 'server_role' ) );
+	$server_list   = $server_search->get_results();
+	$server_count  = $wpdb->num_rows;
+	$money = 0;
+
+
+    foreach($posts as $post) {
+	    // Do your stuff, e.g.
+	    // echo $post->post_name;
+	    $idP=$post->ID;
+	    $metas = get_post_meta($idP);
+	    $money = $money + $metas["price"][0];
+	    array_push($ids, $idP);
+  
+	    
+	    
+	}
+	$totalSer = count($ids);	
+    $field_data = array(
+		'money' => $money,
+		'servicios' => $totalSer,
+		'usuarios' => $user_count,
+		'servidores' => $server_count
+
+	);
+   	return $field_data;
+	
+
+	
+
+}

@@ -9,7 +9,7 @@
   		hiddenSuffix: '__suffix'
 	  });
 	$('.timepicker').pickatime({
-	  formatSubmit: 'H:i',
+	  formatSubmit: 'HH:i',
 	  hiddenName: true,
 	  container: '#root-picker-outlet'
 	})
@@ -43,9 +43,9 @@
 	    function updatetime(){
 	        var i = $("input[name='hour_init']").val();
 	        var sum = $(".sum_final_h").val();
-	        var init = moment(i,"hhmm").format("hh:mm:ss");
+	        var init = moment(i,"hhmm").format("HH:mm:ss");
 	        var end = moment(i,"hhmm").add(sum, 'hour').format("hh:mm A");
-	        var endr = moment(i,"hhmm").add(sum, 'hour').format("hh:mm:ss");
+	        var endr = moment(i,"hhmm").add(sum, 'hour').format("HH:mm:ss");
 	        $("#hour_init_real").val(init);
 	        $("#hour_final").val(end);
 	        $("#hour_final_real").val(endr);
@@ -322,10 +322,17 @@
 	        		$('div.loader').hide('slow/400/fast');
 	        		$('div.error-cont').text('!Gracias¡, su reservacion ha sido procesada');
 	        		$('div.error-cont').show('slow/400/fast');
+	        		$("input[name='who']").val() = "";
+	        		$('.package_aj').val() = "";
+					$('#hour_init_real').val() = "";
+					$('#hour_final_real').val() = "";
+					$("input[name='date']").val() = "";
+					$("#direccio").val() = "";
+					$(".price").val() = "";
 	        		
 	        		setTimeout(function() {
 				        location.reload();
-				    }, 3000);
+				    }, 1000);
 	        	}
 	        	       	
 
