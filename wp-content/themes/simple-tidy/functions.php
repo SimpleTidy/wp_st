@@ -1067,7 +1067,7 @@ function confirm_page(){
 
 	if (!empty($servicio) && !empty($pago)) {
 		update_post_meta($pago, "status_mount", "Confirmado");
-		update_post_meta($servicio, "estado", "Reservado");
+		update_post_meta($servicio, "estado", "Aprobado");
 		echo "OK";
 		die();
 	}
