@@ -91,9 +91,25 @@ template {
 	display: none;
 }
 
-a {
+body a {
 	background-color: transparent;
+	text-decoration: none;
+	color: inherit;
 }
+body a:hover {
+	text-decoration: none;
+	color: inherit;
+}
+body a:visited {
+	color: inherit;
+	text-decoration: none;
+
+}
+body div.menu-total ul li {
+	cursor: pointer;
+
+}
+
 
 a:active,
 a:hover {
@@ -1340,4 +1356,27 @@ div.info.letter {
 }	
 table th{
 	text-align: center;
+}
+.back-screnn {
+    position: absolute;
+    left: -200vw;
+    top: 0;
+    background-color: rgba(0,0,0,.3);
+    width: 100%;
+    height: 100vh;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    transition: left 0.2s ease,opacity 0.9s ease;
+    opacity: 0;
+}
+div.back-screnn.showback{
+	left: 0;
+	opacity: 1;
+}
+div.menu-icon{
+	transition: opacity 0.1s ease;
+}
+div.menu-icon.hideMenuIcon{
+	opacity: 0;
 }

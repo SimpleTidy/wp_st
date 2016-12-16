@@ -5,7 +5,7 @@
 <?php get_header();?>
 	<?php  ?>
 	<?php if ( is_user_logged_in() ) : ?>
-		
+		<div class="back-screnn"></div>
 		<div class="col-md-2 menu-total">
 			<ul class="main-list">
 				<li><a href="<?php bloginfo('url');?>/dashboard/"> Dashboard</a></li>
@@ -41,7 +41,8 @@
 			</ul>
 		</div>
 		<div class="work-area col-md-10 offset2">
-			<div class="col-md-12"><i class="fa fa-bars fa-2x clickefect" aria-hidden="true"></i></div>
+
+			<div class="col-md-12 menu-icon"><i class="fa fa-bars fa-2x clickefect" aria-hidden="true"></i></div>
 			
 			<div class="col-md-12 load-content">
 				<!-- ALL PERMISSIONS -->

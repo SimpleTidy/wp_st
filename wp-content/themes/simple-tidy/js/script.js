@@ -52,8 +52,18 @@
 	    }
 	    $(document).on("change", "#hour_init", updatetime);
 	    $("i.clickefect").on("click",function () {
+	    	
+	    	$("div.menu-icon").toggleClass('hideMenuIcon');
 			$("div.menu-total").toggleClass('showMenu');
 			$("div.work-area").toggleClass('showMenuContent');
+			$("div.back-screnn").toggleClass('showback');
+		});
+		$("div.back-screnn").on("click",function () {
+	    	
+	    	$("div.menu-icon").removeClass('hideMenuIcon');
+			$("div.menu-total").removeClass('showMenu');
+			$("div.work-area").removeClass('showMenuContent');
+			$(this).removeClass('showback');
 		});
 		
 	});
