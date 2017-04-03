@@ -9,7 +9,9 @@
  * @package Simple_Tidy
  */
 
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -47,8 +49,30 @@
 		<?php if ( !is_user_logged_in() ) : ?>
 
 		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'simple-tidy' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
+			<div class="nav-wrapper">
+				<a href="<?php bloginfo('url');?>" class="brand-logo logo-area"><img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo"></a>
+				<!-- <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'simple-tidy' ); ?></button>
+				 --><div id="nav-mobile" class="right hide-on-med-and-down">
+					<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
+				</div>
+				
+			</div>
+		</nav><!-- #site-navigation -->
+		<?php endif; ?>
+
+
+		<?php if ( is_user_logged_in() ) : ?>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo logo-area"><img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo"></a>
+				<!-- <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'simple-tidy' ); ?></button>
+				 --><div id="nav-mobile" class="right hide-on-med-and-down">
+					<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu' => 'private_menu' ) ); ?>
+				</div>
+				
+			</div>
+			
 		</nav><!-- #site-navigation -->
 		<?php endif; ?>
 	</header><!-- #masthead -->

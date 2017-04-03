@@ -1,3 +1,4 @@
+<?php @ob_start();?>
 <?php
 /**
  * Simple Tidy functions and definitions.
@@ -379,11 +380,10 @@ add_action( 'wp_enqueue_scripts', 'mh_load_my_script' );
 
 function save_users(){
 	global $wpdb, $current_user;
-	
 	if (isset($_POST['save_u'])) {
 		if (!empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
 			if ($_POST['i_pass'] == $_POST['i_pass2']) {
-				if (email_exists( $_POST['i_email']) == false && username_exists( $_POST['i_user']  ) == false) {
+				if (!email_exists( $_POST['i_email']) && !username_exists( $_POST['i_user'] )) {
 					
 					$id_user = wp_create_user( $_POST['i_user'], $_POST['i_pass'], $_POST['i_email'] );
 					
@@ -403,14 +403,14 @@ function save_users(){
     				wp_redirect( $login_page."/dashboard/");
 				}else{
 					?>
-						<div class="error" style="color: red;">El usuario o el mail ya existen en nuestra plataforma</div>
+						<div class="error" style="color: red;"><p class="login-msg">El usuario o el mail ya existen en nuestra plataforma</p></div>
 						<?php
 						return;
 					}
 			}else{
 
 				?>
-				<div class="error" style="color: red;">Contraseñas no coinciden</div>
+				<div class="error" style="color: red;"><p class="login-msg">Contraseñas no coinciden</p></div>
 				<?php
 				return;
 			}
@@ -420,7 +420,7 @@ function save_users(){
 			if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
 				# code...
 				?>
-				<div class="error" style="color: red;">Tiene campos vacios</div>
+				<div class="error" style="color: red;"><p class="login-msg"> Tiene campos vacios</p></div>
 				<?php
 				return;
 			}
@@ -438,9 +438,8 @@ add_action('wp_ajax_nopriv_save_servers', 'save_servers');
 function save_servers(){
 	
 	global $wpdb, $current_user;
-	
 	/*if (isset($_POST['save_u'])) {*/
-		if (!empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
+		if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' ) && !empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
 			if ($_POST['i_pass'] == $_POST['i_pass2']) {
 				if (email_exists( $_POST['i_email']) == false && username_exists( $_POST['i_user']  ) == false) {
 
@@ -458,35 +457,33 @@ function save_servers(){
 		                $user->add_role( 'server_role' );
 
 		            }
-		            echo 1;
-		            die();
-					/*wp_set_current_user($id_user);
-					wp_set_auth_cookie( $id_user);
-            		$login_page  = home_url();
-    				wp_redirect( $login_page."/dashboard/");*/
-				}else{
+		            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+					require_once( ABSPATH . 'wp-admin/includes/file.php' );
+					require_once( ABSPATH . 'wp-admin/includes/media.php' );
 					
-						
-						
-						echo "El usuario o el mail ya existen en nuestra plataforma";
-						die();
+					// Let WordPress handle the upload.
+					// Remember, 'my_image_upload' is the name of our file input in our form above.
+					$attachment_id = media_handle_upload( 'my_image_upload', 0);
+					$attachment_url = wp_get_attachment_url($attachment_id);
+					
+					if ( is_wp_error( $attachment_id ) ) {
+						echo "Ocurrio un error subiendo la imagen al servidor";
+					} else {
+							
+			            echo 1;
+			            die();
 					}
+				}else{
+					echo "El usuario o el mail ya existen en nuestra plataforma";
+					die();
+				}
 			}else{
-
-				
-				
 				echo "Contraseñas no coinciden";
 				die();
-				
 			}
-			//$login_page  = home_url();
-    		//wp_redirect( $login_page );
 		}else{
 			if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
 				# code...
-				
-				
-				
 				echo "Tiene campos vacios";
 				die();
 			}
@@ -1344,3 +1341,50 @@ function data_dashboard_admin()
 	
 
 }
+
+
+function register_my_menus() {
+  register_nav_menus(
+    array(
+      'private-menu' => __( 'Private Menu' ),
+      'private-menu-2' => __( 'Private Menu Secundary' ),
+      'private-menu-3' => __( 'Private Menu third' )
+    )
+  );
+}
+add_action( 'init', 'register_my_menus' );
+
+function add_login_logout_register_menu( $items, $args ) {
+ if ( $args->theme_location != 'primary' ) {
+ 	return $items;
+ }
+ 
+ if ( is_user_logged_in() ) {
+ 	if ( current_user_can('client_role') ) {
+	 	$items .= '<li><a href="/st/add-servicio/">' . __( 'Solicitar Servicio' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/user-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
+	} 
+	if ( current_user_can('administrator') ) {
+	 	$items .= '<li><a href="/st/admin-list-services/">' . __( 'Ver Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/add-server/">' . __( 'Agregar Servidor' ) . '</a></li>';
+	}
+	if ( current_user_can('server_role') ) {
+	 	$items .= '<li><a href="/st/server-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
+	}  
+ 	$items .= '<li><a href="' . wp_logout_url() . '">' . __( 'Cerrar Sesión' ) . '</a></li>';
+ 	
+ } 
+ 
+ return $items;
+}
+ 
+add_filter( 'wp_nav_menu_items', 'add_login_logout_register_menu', 7, 2 );
+
+function my_enqueue1() {
+
+    wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/script.js', array('jquery') );
+
+    wp_localize_script( 'ajax-script', 'my_ajax_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+}
+add_action( 'wp_enqueue_scripts', 'my_enqueue1' );

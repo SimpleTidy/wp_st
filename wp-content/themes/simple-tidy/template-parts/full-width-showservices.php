@@ -13,10 +13,13 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
- ?>
-<div class="table-responsive">
+ get_header(); ?>
+ <div class="titleProcessService">
+		<div class="titleProcess">Mis servicios a realizar</div>
+</div>
+<div class="table-responsive table-general panel">
   <table class="table table-hover">
-	  <thead class="thead-inverse">
+	  <thead class="thead-inverse back-green-table">
 		<tr>
 		  <th>Usuario</th>
 		  <th>Fecha</th>
@@ -26,6 +29,7 @@
 		  <th>Monto</th>
 		  <th>Estado</th>
 		  <th>Ranking</th>
+		   <th></th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -59,7 +63,7 @@
 					      <td><?php echo $meta["price"][0]?></td>
 					      <td><?php echo$meta["estado"][0]?></td>
 					      <td><?php echo $meta["ranking"][0];?></td>
-					      <td><a href="<?php echo get_permalink(); ?>" >ver detalles</a></td>
+					      <td><a href="<?php echo get_permalink(); ?> " class="waves-effect waves-light btn">ver detalles</a></td>
 					    
 				    </tr>
 				  
@@ -71,5 +75,6 @@
 	  </tbody>
   </table>
 </div>
+<?php get_footer(); ?>
  
 	

@@ -13,7 +13,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
 */
-save_users(); 
+
 
 get_header(); ?>
 
@@ -110,58 +110,29 @@ get_header(); ?>
 
 		</div>#cont-2 --> 
 
-
-	<div id="formlog">
-		<?php
-		$login  = (isset($_GET['login']) ) ? $_GET['login'] : 0;
-		if ( $login === "failed" ) {
-		    echo '<p class="login-msg"><strong>ERROR:</strong> Invalid username and/or password.</p>';
-		} elseif ( $login === "empty" ) {
-		    echo '<p class="login-msg"><strong>ERROR:</strong> Username and/or Password is empty.</p>';
-		} elseif ( $login === "false" ) {
-		    echo '<p class="login-msg"><strong>ERROR:</strong> You are logged out.</p>';
-		}
-		$args = array(
-		    'redirect' => home_url(), 
-		    'id_username' => 'user',
-		    'id_password' => 'pass',
-		   ) 
-		;?>
-		<?php wp_login_form( $args ); ?>
-		<a id="reg">No tienes cuenta?. ¡Registrate!</a> 
-	</div>
-	<div id="formreg">
+		<img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo-login">
+			
+		<div id="formlog">
+			<?php
+			$login  = (isset($_GET['login']) ) ? $_GET['login'] : 0;
+			if ( $login === "failed" ) {
+			    echo '<p class="login-msg"><strong>ERROR:</strong> Usurio o contraseña incorrecta.</p>';
+			} elseif ( $login === "empty ") {
+			    echo '<p class="login-msg"><strong>ERROR:</strong> Usurio o contraseña vacios.</p>';
+			} elseif ( $login === "false") {
+			    echo '<p class="login-msg"><strong>ERROR:</strong> Has cerrado sesión.</p>';
+			}
+			$args = array(
+			    'redirect' => home_url(), 
+			    'id_username' => 'user',
+			    'id_password' => 'pass',
+			   ) 
+			;?>
+			<?php wp_login_form( $args ); ?>
+			<div>No tienes cuenta?. <a href="<?php bloginfo('url');?>/register/">Regístrate</a></div>
+		</div>
 		
-		<form method="post" action="" onsubmit="return save_users()">
-			<div class="input-field col s12">
-	          <input type="text" class="validate" value="" name="i_name"></input>
-			  <label for="last_name">Nombre</label>
-	        </div>
-	        <div class="input-field col s12">
-	          <input type="text" class="validate" value="" name="i_user"></input>
-			  <label for="last_name">Usuario</label>
-	        </div>
-	        <div class="input-field col s12">
-	          <input type="text" class="validate" value="" name="i_email"></input>
-			  <label for="last_name">Correo</label>
-	        </div>
-	        <div class="input-field col s12">
-	          <input type="password" class="validate" value="" name="i_pass"></input>
-			  <label for="last_name">Contraseña</label>
-	        </div>
-	        <div class="input-field col s12">
-	          <input type="password" class="validate" value="" name="i_pass2"></input>
-			  <label for="last_name">Repita contraseña</label>
-	        </div>
 			
-			
-			
-			<input type="hidden" value="1" name="i_role"></input>
-			<input type="submit" value="Regístrate" name="save_u" class="btn_reg"></input>
-		</form>
-		<a id="log">Ya tienes cuenta?. Inicia Sesión</a>
-	</div>
-		
 	</div>
 	
 <div style="clear:both;"></div>

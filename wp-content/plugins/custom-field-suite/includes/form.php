@@ -31,6 +31,10 @@ class cfs_form
             return;
         }
 
+        if ( isset( $_POST['wp-preview'] ) && 'dopreview' == $_POST['wp-preview'] ) {
+            return;
+        }
+
         $this->session = new cfs_session();
 
         // Save the form
@@ -364,7 +368,7 @@ CFS['loop_buffer'] = [];
 
         <div class="field field-<?php echo $field->name; ?>" data-type="<?php echo $field->type; ?>" data-name="<?php echo $field->name; ?>"">
             <?php if ( 'loop' == $field->type ) : ?>
-            <span class="cfs_loop_toggle" title="<?php esc_html_e( 'Toggle row visibility', 'cfs' ); ?>"></span>
+            <a href="javascript:;" class="cfs_loop_toggle" title="<?php esc_html_e( 'Toggle row visibility', 'cfs' ); ?>"></a>
             <?php endif; ?>
 
             <?php if ( ! empty( $field->label ) ) : ?>

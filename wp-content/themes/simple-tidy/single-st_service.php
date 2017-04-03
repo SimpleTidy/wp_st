@@ -15,21 +15,9 @@
  */
 
 get_header(); ?>
-
-<?php
-
-/* 
-
-	Para ver el detalle del diseño se debe validar si el usuario es
-	propietario o si el diseñador es el dueño del diseño, sería así:
-
-	if((user_type()==1) || (is_my_design($id_design)))
-
-*/
-
-?>
 <?php
 	global $id;
+	date_default_timezone_set('America/Caracas');
 	$id = get_the_ID();
 	$meta = get_post_meta($id);
 	$date = new DateTime($meta["date_service"][0]);
@@ -38,15 +26,33 @@ get_header(); ?>
 	$server = get_userdata( $meta["server"][0] );
 
 	 
-	$date_service = new DateTime($meta["date_service"][0]);
-	$hoy = new DateTime();
+	$date_service = date_create($meta["date_service"][0] ." ". $meta["hora_inicio"][0]);
+	$h_service = date_create($meta["hora_inicio"][0]);
+	$hoy = date_create();
+	/*echo "Servicio";
+	var_dump($date_service);
+	echo "Hoy";*/
+	
+	$hoy->setTimezone(new DateTimeZone("UTC"));
+	$date_service->setTimezone(new DateTimeZone("UTC"));
+	echo $hoy->format("Y-m-d H:i:s e") . "\n";
+	echo $date_service->format("Y-m-d H:i:s e") . "\n";
+	/*echo "respuesta";
+	var_dump($hoy < $date_service);*/
 	$check = check_pay_for_service($id);
+	$current_user = wp_get_current_user();
+	$usuario_login_id = $current_user->ID;
 
 
 ?>
- 
+<div class="titleProcessService">
+	<div class="titleProcess">Servicio-<?php echo $id;?> </div>
+</div>
+<div class="stepsContainer">
+	<h5><?php echo date_format($date, 'l, d F Y'); ?></h5>
+</div>
 
-<div class="head-detail">
+<!-- <div class="head-detail">
 	<a href="<?php bloginfo('url');?>/dashboard/"> atras</a>
 	<h1>
 		Servicio-<?php echo $id;?> 
@@ -55,19 +61,47 @@ get_header(); ?>
 			<h4><?php echo date_format($date, 'l, d F Y'); ?></h4>
 		</span>
 	</h1>
+</div> -->
+<div class="content-maps">
+	<iframe width="50%" class="map_detail" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDjbm2v8nAEDFo_HuW648t2bNXdt4HlJw0&q=<?php echo $meta["direccion"][0]; ?>"></iframe>	
 </div>
-<iframe width="60%" height="300" class="map_detail" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCuLZom0QnvAg0z9ETXhMpdWYiWzSuTkmA&q=<?php echo $meta["direccion"][0]; ?>"></iframe>	
 <div class="content-detail">
 	<div class="panels-content-detail">
+		<div class="info-server panel">
+	 		<div class="header-info-server">
+	 			Informacion del servidor
+	 			
+	 		</div>
+	 		<hr class="member_details_divider">
+	 		<div class="content-detail-print">
+	 			<?php echo get_avatar( $server->ID ) ?>
+				<div class="name-detail-service">
+					<?php echo $server->user_login;?> 
+					<?php $imprime = check_data_server($server->ID);?>
+					<div class="div-info">
+						<div class="div-half ranking-haf">
+							<?php	echo $imprime["ranking"];?> 
+							<div>puntuacion en servicios</div>
+						</div>
+						<div class="div-half servicios-haf">
+							<?php echo $imprime["servicios"];?> 
+							<div>servicios realizados</div>
+						</div>
+					</div>
+						
+
+				</div>
+	 		</div>
+	 	</div>
 	 	<div class="info-service panel">
 	 		<div class="header-info">
 	 			Informacion del servicio
-	 			<img src="<?php bloginfo('template_url');?>/images/laptop.png" class="header-info-img">
+	 			
 	 		</div>
 	 		<hr class="member_details_divider">
 	 		<div class="content-detail-print">
 	 			<section class="data-detail">
-	 				<section class="col-md-5 user_profile_detail">
+	 				<section class="user_profile_detail">
 	 				
 							<?php echo get_avatar( $client->ID ) ?>
 							<div class="name-detail-service">
@@ -75,24 +109,24 @@ get_header(); ?>
 							</div>
 						
 	 				</section>
-	 				<section class="col-md-7 service_detail">
+	 				<section class="service_detail">
 	 					<div class="data-service-ind">
-	 						<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/hri.png" class="icon-detail">Hora inicio: </span>
+	 						<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/hri.png" class="icon-detail">Empieza a las </span>
 	 						<?php
 	 						$hri = new DateTime($meta["hora_inicio"][0]);
-							echo $hri->format('H:i a'); 
+							echo $hri->format('H:i'); 
 	 						
 	 						?>
 	 					</div>
 						<div class="data-service-ind">
-							<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/hrf.png" class="icon-detail">Hora fin: </span>
+							<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/hrf.png" class="icon-detail">Termina a las </span>
 								<?php
 									$hrf = new DateTime($meta["hora_fin"][0]);
-									echo $hrf->format('H:i a');
+									echo $hrf->format('H:i');
 								?>
 						</div>	
 						<div class="data-service-ind">
-							<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/dir.png" class="icon-detail">Direccion: </span>
+							<span class="tittle-detail-section"><img src="<?php bloginfo('template_url');?>/images/dir.png" class="icon-detail"></span>
 								<?php echo $meta["direccion"][0]?>
 						</div>
 						<div class="data-service-ind">
@@ -103,9 +137,10 @@ get_header(); ?>
 	 				<section class="col-md-12 service_options">
 	 				<?php 
 	 					if ($meta["estado"][0] == "Abierto" ) {?>
+
 		 					<?php if (current_user_can('client_role') ) {
 		 							$check = check_pay_for_service($id);
-		 							if (!$check["exist"] && $hoy < $date_service) {
+		 							if (!$check["exist"] && $hoy < $date_service && $meta["user"][0] == $usuario_login_id) {
 		 								?>
 		 								<div class="proced-page btn-options" >pagar servicio</div>
 		 								<?php
@@ -113,8 +148,14 @@ get_header(); ?>
 		 							
 										?>
 										
-								
-									<div class="erase-page btn-options" on-click="">eliminar servicio</div>
+									<?php if ($meta["user"][0] == $usuario_login_id) {
+		 								?>
+
+										<div class="erase-page btn-options" on-click="">eliminar servicio</div>
+									<?php
+		 							}
+		 							
+										?>
 							<?php } ?>
 
 							<?php if (current_user_can('administrator') ) {
@@ -140,7 +181,7 @@ get_header(); ?>
 								
 							<?php } ?>
 						<?php } ?>
-						<?php if ($meta["estado"][0] == "Aprobado" && current_user_can('client_role') &&  $hoy > $date_service) {?>
+						<?php if ($meta["estado"][0] == "Aprobado" && current_user_can('client_role') &&  $hoy > $date_service && $meta["user"][0] == $usuario_login_id) {?>
 							<div class="rating-service btn-options" id="RtingServiceEnd">calificar Servicio</div>
 						<?php } ?>
 						<?php if ($meta["estado"][0] == "Terminado" && $hoy > $date_service) {?>
@@ -189,32 +230,7 @@ get_header(); ?>
 	 			</section>
 	 		</div>
 	 	</div>
-	 	<div class="info-server panel">
-	 		<div class="header-info-server">
-	 			Informacion del servidor
-	 			<img src="<?php bloginfo('template_url');?>/images/sponge.png" class="header-info-img">
-	 		</div>
-	 		<hr class="member_details_divider">
-	 		<div class="content-detail-print">
-	 			<?php echo get_avatar( $server->ID ) ?>
-				<div class="name-detail-service">
-					<?php echo $server->user_login;?> 
-					<?php $imprime = check_data_server($server->ID);?>
-					<div class="div-info">
-						<div class="div-half ranking-haf">
-							<?php	echo $imprime["ranking"];?> 
-							<div>puntuacion en servicios</div>
-						</div>
-						<div class="div-half servicios-haf">
-							<?php echo $imprime["servicios"];?> 
-							<div>servicios realizados</div>
-						</div>
-					</div>
-						
-
-				</div>
-	 		</div>
-	 	</div>
+	 	
 
 	 	<?php if ($meta["estado"][0] == "Aprobado" && current_user_can('client_role') &&  $hoy > $date_service) {?>
 			<div class="info-rating-page col-md-12 panel" style="display: none;">

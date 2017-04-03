@@ -363,6 +363,19 @@ big {
 /*--------------------------------------------------------------
 # Elements
 --------------------------------------------------------------*/
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+    border: 1px solid;
+    border-color: #ccc #ccc #bbb;
+    border-radius: 3px;
+    background: #e6e6e6;
+    box-shadow: none; 
+    color: rgba(0, 0, 0, .8);
+    font-size: 12px;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: .6em 1em .4em;
+    text-shadow: none; 
+}
 html {
 	box-sizing: border-box;
 }
@@ -577,6 +590,8 @@ a:active {
 	display: block;
 	float: left;
 	width: 100%;
+	background-color: #fff;
+	color: #eee;
 }
 
 .main-navigation ul {
@@ -941,9 +956,7 @@ object {
 .gallery-caption {
 	display: block;
 }
-div#formreg{
-	display: none;
-}
+
 ul.main-list, ul.second-list{
 	margin: 0px;
     list-style-type: none;
@@ -1010,6 +1023,7 @@ div#map{
 	height: 250px;
 }
 iframe.map_detail{
+	height: 250px;
 	display: block;
     margin: 0px auto;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -1045,9 +1059,13 @@ span.appear{
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 .panels-content-detail {
-    width: 60%;
+    width: 75%;
     margin: 0px auto;
     padding: 10px 0px;
+    display: table;
+}
+iframe.map_detail{
+	width: 100%;
 }
 .content-detail {
     width: 100%;
@@ -1058,23 +1076,33 @@ span.appear{
     font-weight: 600;
 }
 .info-service {
-    width: 59%;
+    width: 55%;
     float: left;
-    margin-right: 1%;
+	margin-right: 2%;
+    margin-left: 2%;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-	padding: 5px 10px;
+	padding: 0px;
 	position: relative;
 	margin-bottom: 20px;
+	border: 0px;
 }
 .info-server {
-    width: 39%;
+    width: 35%;
     float: left;
-    margin-left: 1%;
+    margin-left: 2%;
+    margin-right: 2%;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    padding: 5px 10px;	
+    padding: 0px 0px;	
     position: relative;
+    border: 0px;
+}
+.header-info-server{
+	padding: 5px 2%;
+	text-align: center;
+	background-color: #20A78B;
+	color: #FFF;
 }
 hr {
     border-top: 0px solid #DDD;
@@ -1086,6 +1114,12 @@ img.header-info-img {
     right: 10px;
     top: 5px;
 }
+.header-info{
+	background-color: #20A78B;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+}
 .content-detail-print {
     min-height: 100px;
     padding: 0px 5% 10px;
@@ -1094,9 +1128,13 @@ img.header-info-img {
 }
 .data-service-ind {
     font-weight: 600;
+    font-size: 16px;
+    margin: 0px auto;
+    width: 60%;
 }
 img.icon-detail {
-    width: 16px;
+    width: 20px;
+    margin-right: 15px;
 }
 span.tittle-detail-section {
     font-weight: 100;
@@ -1113,9 +1151,10 @@ span.tittle-detail-section {
 div.info-service-page{
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-	padding: 5px 10px;
+	padding: 0px;
 	position: relative;
 	height: 405px;
+	border: 1px;
 }
 .btn-options {
     width: auto;
@@ -1166,37 +1205,59 @@ div.error_cont p.success {
 
 div#formlog {
     width: 30%;
-    margin: 10vh auto;
+    margin: 20px auto;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     padding: 2%;
     background-color: #fff;
 }
-div#formreg{
-	width: 30%;
-    margin: 5vh auto;
+form.form_server {
+    width: 50%;
+    margin: 20px auto;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     padding: 2%;
     background-color: #fff;
+}
+div.content-reg{
+	width: 100%;
+    display: table;
+    background-image: url(images/cleaning-back-reg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 600px;
+}
+img.img-logo-register{
+	float: right;
+    width: 20%;
+    margin-right: 10%;
+    margin-top: 50px;
+}
+div#formreg{
+	width: 30%;
+    margin: 50px 0% 0 10%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 2%;
+    background-color: #fff;
+    float: left;
 }
 input#wp-submit {
     border-radius: initial;
     border: initial;
     box-shadow: initial;
     float: right;
-    background-color: #e48900;
     text-shadow: initial;
     color: #fff;
     text-transform: uppercase;
     font-size: 1rem !important;
     font-weight: 700;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-family: 'Lato', sans-serif;
 }
-div#formreg .btn_reg{
+div#formreg input[type="submit"].btn_reg{
 	border-radius: initial;
     border: initial;
     box-shadow: initial;
     float: right;
-    background-color: #e48900;
+    background: rgb(0, 170, 161);
     text-shadow: initial;
     color: #fff;
     text-transform: uppercase;
@@ -1204,8 +1265,11 @@ div#formreg .btn_reg{
     font-weight: 700;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
-input#wp-submit:hover {
+/*input#wp-submit:hover {
    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}*/
+a.btn, a.btn:visited,a.btn:hover,div.btn,div.hover,button.btn,button.btn:hover{
+	color: #fff;
 }
 div#formreg .btn_reg:hover {
    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -1379,4 +1443,159 @@ div.menu-icon{
 }
 div.menu-icon.hideMenuIcon{
 	opacity: 0;
+}
+/*Site Menu*/
+img.img-logo{
+	width: 10%;
+	margin-left: 5%
+}
+nav.main-navigation ul#primary-menu li a{
+	color: #777777;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+nav.main-navigation ul#primary-menu li a:hover{
+	background: rgb(0, 131, 138);
+	color: #fff;
+}
+nav.main-navigation ul#menu-private_menu li a{
+	color: #777777;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+nav.main-navigation ul#menu-private_menu li a:hover{
+	background: rgb(0, 131, 138);
+	color: #fff;
+}
+img.img-logo-login {
+    width: 15%;
+    margin: 0px auto;
+    display: block;
+    margin-top: 45px;
+}
+div.btns, input.btns,input#wp-submit,li.btns,a.bntns{
+	/*background: rgb(0, 170, 161);*/
+}
+input#wp-submit:focus{
+	outline: none;
+}
+input[type="submit"]{
+	background: rgb(0, 170, 161);
+	box-shadow: none;
+	text-shadow: none;
+	border-radius: initial;
+    border: initial;
+    box-shadow: initial;
+    text-shadow: initial;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem !important;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-family: 'Lato', sans-serif;
+    margin: 0px auto;
+}
+.login-submit{
+	display: table;
+	margin: 0px auto;
+}
+.b-container {
+    display: table;
+    margin: 0px auto;
+}
+/*Mensaje de error*/
+p.login-msg {
+    color: #fff;
+    background-color: #ff4747;
+    padding: 2px;
+    text-align: center;
+}
+/*List Services*/
+
+div.table-general{
+	width: 80%;
+    margin: 50px auto;
+    border: 0;
+}
+div.titleProcessService{
+	text-align: center;
+    background-color: #1F897F;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 24px;
+    margin: 0;
+    padding: 20px;
+    font-weight: 300;
+}
+div.one h1,div.two h1,div.three h1{
+	text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+    margin: 0;
+    padding: 20px;
+    color: #20A78B;
+    font-weight: 500;
+}
+.stepService.stepTabActive{
+	background-color: #fff;
+    color: #20a78b;
+}
+.stepService.stepTabActive i{
+	border-color: #20a78b;
+}
+.InnerSteps {
+    width: 70%;
+    margin: 0 auto;
+}
+.btn:hover{
+	color: #fff;
+}
+table .back-green-table {
+    background-color: #1F897F;
+    border: none;
+    color: #fff;
+    border-radius: 0;
+}
+table .back-green-table th{
+	background-color: #1F897F;
+    border-radius: 0;
+}
+div#content table tbody tr td{
+	text-align: center;
+}
+.stepsContainer {
+    background: #20a78b;
+    color: #fff;
+}
+.stepsContainer h5{
+   margin: 0;
+   text-align: center;
+   font-weight: lighter;
+   font-size: 20px;
+   padding: 10px 0;
+}
+.stepService {
+    width: 33%;
+    display: inline-block;
+    text-align: center;
+    padding: 8px;
+    position: relative;
+}
+.stepService i {
+    font-style: initial;
+    position: absolute;
+    left: 12%;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    height: 29px;
+    width: 29px;
+    top: 7px;
+}
+div.panelSteps {
+    display: table;
+    width: 85%;
+    margin: 0px auto;
+    padding: 2%;
 }

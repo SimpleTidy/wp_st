@@ -1,5 +1,7 @@
 (function($) {
+
 	/*Comienzan los js*/
+	$('input#wp-submit').addClass('waves-effect waves-light btn')
 	$('.datepicker').pickadate({
 	    selectMonths: true, // Creates a dropdown to control month
 	    selectYears: 15, // Creates a dropdown of 15 years to control year
@@ -15,12 +17,13 @@
 	})
 	$(document).ready(function(){
 		
-		var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
+		
 		$("#reg").on("click",function () {
 			$("div#formlog").hide('slow/400/fast');
 			$("div#formreg").show('slow/400/fast');
 			
 		});
+		$('div.stepOne.stepService').addClass('stepTabActive')
 		$("div.alert").hide('slow/400/fast');
 		$('div.error-cont').hide('slow/400/fast');
 		$('div.loader').hide('slow/400/fast');
@@ -65,6 +68,20 @@
 			$("div.work-area").removeClass('showMenuContent');
 			$(this).removeClass('showback');
 		});
+		var urlActive = window.location.pathname
+		if (urlActive == '/st/add-servicio/') {
+			$('div.load-content div.content-panel').hide('fast/100/fast');
+			$('div.load-content div.partial_service').removeClass('init');
+			$('div.load-content div.content-panel').removeClass('active');
+			$('div.one').hide('slow/400/fast');
+			$('div.two').hide('slow/400/fast');
+			$('div.three').hide('slow/400/fast');
+			$('div.one').show('slow/400/fast');
+			$('div.load-content div.partial_service').addClass('active');
+		    $('div.load-content div.active').show('slow/400/fast');
+		};
+
+
 		
 	});
 	
@@ -118,24 +135,57 @@
 		$('form.form_server').show('slow/100/fast');
 	}
 	/*END OF PROGRAMING FOR SERVERS OPTION ADMIN*/
-	$('div#submit-server').on('click', function(event) {
-		//save_u
-		/*i_name
-		i_role
-		i_user
-		i_email
-		i_pass
-		i_pass2*/
-		event.preventDefault();
-		/* Act on the event */
+	/*if (resp == 1) {
+	        		hideloaderinservices();
+	        		$('div.error-cont').show('slow/400/fast');
+	        		$('div.error-cont').text('Lamentablemente, ya hay un servicio para esta fecha. Intente con otro servidor o en otro dia.');
+	        	}
+	        	if (resp == 0) {
+	        		$('div.loader').hide('slow/400/fast');
+	        		$('div.error-cont').text('!Gracias¡, su reservacion ha sido procesada');
+	        		$('div.error-cont').show('slow/400/fast');
+	        		
+	        		setTimeout(function() {
+				        location.reload();
+				    }, 3000);
+	        	}*/
+	/*$('#submit-server').on('click', function() {
+		$("form#formServer").submit(function(){
+
+			var form_data = new FormData($(this)[0]);
+			console.log(form_data)
+		});
 		var i_name = $("input[name='i_name']").val()
 		var i_role = $("input[name='i_role']").val()
 		var i_user = $("input[name='i_user']").val()
 		var i_email = $("input[name='i_email']").val()
 		var i_pass = $("input[name='i_pass']").val()
 		var i_pass2 = $("input[name='i_pass2']").val()
-	   	
-		showloaderinservers()
+		var file_data = $('#my_image_upload').prop('files')[0];   
+		var form = $('form#formServer')[0]; // You need to use standard javascript object here
+		var form_data = new FormData(form);
+	    var data = {
+	        'action':'save_servers',
+	        'i_name': i_name,
+	        'i_role': i_role,
+	        'i_user': i_user,
+	        'i_email': i_email,
+	        'i_pass': i_pass,
+	        'i_pass2': i_pass2,
+	        'i_picture': file_data
+
+	    }
+	    form_data.append('i_name',$("input[name='i_name']").val())
+	    form_data.append('i_role',$("input[name='i_role']").val())
+	    form_data.append('i_user',$("input[name='i_user']").val())
+	    form_data.append('i_email',$("input[name='i_email']").val())
+	    form_data.append('i_pass',$("input[name='i_pass']").val())
+	    form_data.append('i_pass2',$("input[name='i_pass2']").val())
+	    form_data.append('file_data',$('#my_image_upload').prop('files')[0])
+	    showloaderinservers()
+	    console.log(form_data);                      
+		
+		
 		$.ajax({
 			type: 'POST',
 	        url: ajaxurl,
@@ -146,7 +196,8 @@
 	            'i_user': i_user,
 	            'i_email': i_email,
 	            'i_pass': i_pass,
-	            'i_pass2': i_pass2
+	            'i_pass2': i_pass2,
+	            'i_picture': i_picture
 
 	        },
 	        success:function(resp) {
@@ -169,20 +220,7 @@
 				        location.reload();
 				}, 1000);
 	        	
-	        	/*if (resp == 1) {
-	        		hideloaderinservices();
-	        		$('div.error-cont').show('slow/400/fast');
-	        		$('div.error-cont').text('Lamentablemente, ya hay un servicio para esta fecha. Intente con otro servidor o en otro dia.');
-	        	}
-	        	if (resp == 0) {
-	        		$('div.loader').hide('slow/400/fast');
-	        		$('div.error-cont').text('!Gracias¡, su reservacion ha sido procesada');
-	        		$('div.error-cont').show('slow/400/fast');
-	        		
-	        		setTimeout(function() {
-				        location.reload();
-				    }, 3000);
-	        	}*/
+	        	
 	        	       	
 
 	        },
@@ -193,7 +231,7 @@
 	        }
 	    });
 
-	});
+	});*/
 
 	/*PROGRAMING JS FOR SERVICE PROCESS*/
 
@@ -229,7 +267,8 @@
 			
 	});
 	$('div.next2').on("click",function () {
-						
+		$('div.stepOne.stepService').removeClass('stepTabActive')
+		$('div.stepTwo.stepService').addClass('stepTabActive')
 		$('div.one').hide('slow/400/fast');
 		$('div.two').hide('slow/400/fast');
 		$('div.three').hide('slow/400/fast');
@@ -237,7 +276,8 @@
 			
 	});
 	$('div.back1').on("click",function () {
-						
+		$('div.stepTwo.stepService').removeClass('stepTabActive')
+		$('div.stepOne.stepService').addClass('stepTabActive')				
 		$('div.one').hide('slow/400/fast');
 		$('div.two').hide('slow/400/fast');
 		$('div.three').hide('slow/400/fast');
@@ -246,6 +286,8 @@
 	});
 	$('div.next3').on("click",function () {
 						
+		$('div.stepTwo.stepService').removeClass('stepTabActive')
+		$('div.stepThree.stepService').addClass('stepTabActive')
 		$('div.one').hide('slow/400/fast');
 		$('div.two').hide('slow/400/fast');
 		$('div.three').hide('slow/400/fast');
@@ -253,7 +295,8 @@
 			
 	});
 	$('div.back2').on("click",function () {
-						
+		$('div.stepThree.stepService').removeClass('stepTabActive')
+		$('div.stepTwo.stepService').addClass('stepTabActive')			
 		$('div.one').hide('slow/400/fast');
 		$('div.two').hide('slow/400/fast');
 		$('div.three').hide('slow/400/fast');
@@ -654,9 +697,79 @@
 
 
   /*Terminan los js*/
+
+ 
+
+
 }(jQuery));
 
+
+ 	/*MAPS*/
+
 var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('place')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+
+
+
+
+/*var placeSearch, autocomplete;
 var componentForm = {
   street_number: 'short_name',
   route: 'long_name',
@@ -710,7 +823,9 @@ function geolocate() {
       autocomplete.setBounds(circle.getBounds());
     });
   }
-}
+}*/
+
+
 
 
 /*function initMap() {

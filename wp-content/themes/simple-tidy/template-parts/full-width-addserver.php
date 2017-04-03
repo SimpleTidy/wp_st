@@ -13,7 +13,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
- ?>
+get_header(); ?>
 <div class="loader">
 	 <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -27,21 +27,56 @@
 	    </div>
 	 </div>
  </div>
- <h1>Agrega un nuevo servidor a la plataforma</h1>
- <div class="alert alert-danger alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong class="bodymsg"></strong> 
+ <div class="titleProcessService">
+		<div class="titleProcess">Agrega un nuevo servidor a la plataforma</div>
 </div>
- <form class="form_server">
-	
-	<form method="post" >
-		<input type="text" class="col-md-12" placeholder="Nombre y Apellido" value="" name="i_name"></input>
-		<input type="text" class="col-md-12" placeholder="Usuario" value="" name="i_user"></input>
-		<input type="text" class="col-md-12" placeholder="Email" value="" name="i_email"></input>
-		<input type="text" class="col-md-12" placeholder="Contraseña" value="" name="i_pass"></input>
-		<input type="text" class="col-md-12" placeholder="Repita contraseña" value="" name="i_pass2"></input>
+
+	<form id="formServer" method="post" class="form_server" enctype="multipart/form-data" onsubmit="return save_servers()">
+		
+		<div class="alert alert-danger alert-dismissible" role="alert">
+	  
+		  <strong class="bodymsg"></strong> 
+		</div>
+		<div class="input-field col s12">
+			<input type="text" class="validate" value="" name="i_name"></input>
+			<label for="name">Nombre y Apellido</label>
+		</div>
+		<div class="input-field col s12">
+			<input type="text" id="user-server" class="validate" value="" name="i_user"></input>
+			<label for="user-server">Usuario</label>
+		</div>
+		<div class="input-field col s12">
+			<input type="text" class="validate" value="" name="i_email"></input>
+			<label for="email-server">Email</label>
+		</div>
+		<div class="input-field col s12">
+			<input type="password" class="validate" value="" name="i_pass"></input>
+			<label for="password-server">Contraseña</label>
+		</div>
+		<div class="input-field col s12">
+			<input type="password" class="validate" value="" name="i_pass2"></input>
+			<label for="re-password-server">Repita Contraseña</label>
+		</div>
+		<div class="file-field input-field">
+	      <div class="btn">
+	        <span>Subir</span>
+	        <input type="file" name="my_image_upload" id="my_image_upload"  multiple="false" >
+	        <?php wp_nonce_field( 'my_image_upload', 'my_image_upload_nonce' ); ?>
+	      </div>
+	      <div class="file-path-wrapper">
+	        <input class="file-path validate" type="text">
+	      </div>
+	    </div>
 		<input type="hidden" value="2" name="i_role"></input>
-		<div id="submit-server">Agregar Servidor</div>
+		
+		<div class="b-container">
+			<input type="submit" id="submit-server" class="waves-effect waves-light btn" value="Agregar Servidor">
+		</div>
+		
 		<!-- <input type="submit" value="Agregar Servidor" name="save_u"></input> -->
 	</form>
-</form>
+
+<script type="text/javascript">
+	var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+</script>
+<?php get_footer(); ?>
