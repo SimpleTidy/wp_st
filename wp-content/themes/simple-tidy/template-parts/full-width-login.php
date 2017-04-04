@@ -110,9 +110,10 @@ get_header(); ?>
 
 		</div>#cont-2 --> 
 
-		<img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo-login">
+		
 			
 		<div id="formlog">
+			<img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo-login">
 			<?php
 			$login  = (isset($_GET['login']) ) ? $_GET['login'] : 0;
 			if ( $login === "failed" ) {

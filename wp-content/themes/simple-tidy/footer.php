@@ -59,7 +59,14 @@
 
 
 <script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/script.js"></script>
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjbm2v8nAEDFo_HuW648t2bNXdt4HlJw0&libraries=places&callback=initAutocomplete"></script>
+<script type="text/javascript">
+  function initMap() {
+    var input = document.getElementById("direccio");
+    var autocomplete = new google.maps.places.Autocomplete(input)
+
+}
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjbm2v8nAEDFo_HuW648t2bNXdt4HlJw0&libraries=places&callback=initMap"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer></script> -->
         <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuLZom0QnvAg0z9ETXhMpdWYiWzSuTkmA&signed_in=true&libraries=places&callback=initAutocomplete"

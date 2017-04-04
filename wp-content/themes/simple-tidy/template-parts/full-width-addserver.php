@@ -14,7 +14,7 @@
  * @since Twenty Twelve 1.0
  */
 get_header(); ?>
-<div class="loader">
+<!-- <div class="loader">
 	 <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">
@@ -26,17 +26,38 @@ get_header(); ?>
 	      </div>
 	    </div>
 	 </div>
- </div>
+ </div> -->
  <div class="titleProcessService">
 		<div class="titleProcess">Agrega un nuevo servidor a la plataforma</div>
 </div>
 
 	<form id="formServer" method="post" class="form_server" enctype="multipart/form-data" onsubmit="return save_servers()">
+		<?php 
+			$response = save_servers();
+			if (!empty($response)) {
+				# code...
+			
+				if ($response['error']) {?>
+						<div class="alert alert-danger alert-dismissible" role="alert" style="display: block;">
+		  					<strong class="bodymsg"><?php echo $response['msg']; ?></strong> 
+						</div>
+				<?php }else{
+						if (!$response['error']) {
+							
+						?>
+						<div class="alert alert-success alert-dismissible" role="alert">
+		  					<strong class="bodymsg"><?php echo $response['msg']; ?></strong> 
+						</div>
+						<script type="text/javascript">
+							location.reload();
+						</script>
+				<?php 
+
+						}
+				} 
+				unset($response);
+			} ?>
 		
-		<div class="alert alert-danger alert-dismissible" role="alert">
-	  
-		  <strong class="bodymsg"></strong> 
-		</div>
 		<div class="input-field col s12">
 			<input type="text" class="validate" value="" name="i_name"></input>
 			<label for="name">Nombre y Apellido</label>
@@ -70,7 +91,7 @@ get_header(); ?>
 		<input type="hidden" value="2" name="i_role"></input>
 		
 		<div class="b-container">
-			<input type="submit" id="submit-server" class="waves-effect waves-light btn" value="Agregar Servidor">
+			<input type="submit" name="submit-server" id="submit-server" class="waves-effect waves-light btn" value="Agregar Servidor">
 		</div>
 		
 		<!-- <input type="submit" value="Agregar Servidor" name="save_u"></input> -->

@@ -3,8 +3,17 @@
 ?>
 
 <?php get_header();?>
-	<?php  ?>
 	<?php if ( is_user_logged_in() ) : ?>
+		<?php 
+			if ( have_posts() ) {
+				while ( have_posts() ) {
+					the_post(); 
+					//
+					// Post Content here
+					//
+				} // end while
+			} // end if
+		?>
 		<div class="back-screnn"></div>
 		<div class="col-md-2 menu-total">
 			<ul class="main-list">

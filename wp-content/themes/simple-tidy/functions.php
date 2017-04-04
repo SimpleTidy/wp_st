@@ -436,64 +436,75 @@ add_action('wp_ajax_save_servers', 'save_servers');
 add_action('wp_ajax_nopriv_save_servers', 'save_servers');
 
 function save_servers(){
+	if(isset($_POST['submit-server'])) {
+
 	
-	global $wpdb, $current_user;
-	/*if (isset($_POST['save_u'])) {*/
-		if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' ) && !empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
-			if ($_POST['i_pass'] == $_POST['i_pass2']) {
-				if (email_exists( $_POST['i_email']) == false && username_exists( $_POST['i_user']  ) == false) {
+		global $wpdb, $current_user;
+		/*if (isset($_POST['save_u'])) {*/
+			if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' ) && !empty($_POST['i_name']) && !empty($_POST['i_role']) && !empty($_POST['i_user']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
+				if ($_POST['i_pass'] == $_POST['i_pass2']) {
+					if (email_exists( $_POST['i_email']) == false && username_exists( $_POST['i_user']  ) == false) {
 
-					
-					
-					$id_user = wp_create_user( $_POST['i_user'], $_POST['i_pass'], $_POST['i_email'] );
-					
-					$user = new WP_User($id_user);
+						
+						
+						$id_user = wp_create_user( $_POST['i_user'], $_POST['i_pass'], $_POST['i_email'] );
+						
+						$user = new WP_User($id_user);
 
-					if ($_POST['i_role'] == 1) {
-		                $user->add_role( 'client_role' );
+						if ($_POST['i_role'] == 1) {
+			                $user->add_role( 'client_role' );
 
-		            }
-		            if ($_POST['i_role'] == 2) {
-		                $user->add_role( 'server_role' );
+			            }
+			            if ($_POST['i_role'] == 2) {
+			                $user->add_role( 'server_role' );
 
-		            }
-		            require_once( ABSPATH . 'wp-admin/includes/image.php' );
-					require_once( ABSPATH . 'wp-admin/includes/file.php' );
-					require_once( ABSPATH . 'wp-admin/includes/media.php' );
-					
-					// Let WordPress handle the upload.
-					// Remember, 'my_image_upload' is the name of our file input in our form above.
-					$attachment_id = media_handle_upload( 'my_image_upload', 0);
-					$attachment_url = wp_get_attachment_url($attachment_id);
-					
-					if ( is_wp_error( $attachment_id ) ) {
-						echo "Ocurrio un error subiendo la imagen al servidor";
-					} else {
-							
-			            echo 1;
-			            die();
+			            }
+			            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+						require_once( ABSPATH . 'wp-admin/includes/file.php' );
+						require_once( ABSPATH . 'wp-admin/includes/media.php' );
+						
+						// Let WordPress handle the upload.
+						// Remember, 'my_image_upload' is the name of our file input in our form above.
+						$attachment_id = media_handle_upload( 'my_image_upload', 0);
+						$attachment_url = basename (get_attached_file( $attachment_id ));
+						
+						$user_id = wp_update_user( array( 'ID' => $id_user, 'first_name' => $_POST['i_name'] ) );
+						update_user_meta( $id_user, 'id_foto', $attachment_id );
+
+						if ( is_wp_error( $attachment_id ) ) {
+							$resp = array('error' => true,'msg' => "Ocurrio un error subiendo la imagen de perfil al servidor");
+							return $resp;
+							die();
+						} else {
+							$resp = array('error' => false,'msg' => "Servidor creado con exito");
+							return $resp;
+							die();
+						}
+					}else{
+						$resp = array('error' => true,'msg' => "El usuario o el mail ya existen en nuestra plataforma");
+						return $resp;
+						die();
 					}
 				}else{
-					echo "El usuario o el mail ya existen en nuestra plataforma";
+					$resp = array('error' => true,'msg' => "Las contraseñas no coinciden");
+					return $resp;
 					die();
 				}
 			}else{
-				echo "Contraseñas no coinciden";
-				die();
-			}
-		}else{
-			if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
-				# code...
-				echo "Tiene campos vacios";
-				die();
-			}
+				if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
+					# code...
+					$resp = array('error' => true,'msg' => "Tiene campos vacios");
+					return $resp;
+					die();
+				}
 
+				
+				
+			}
 			
 			
-		}
-		
-		
-	/*}*/
+		/*}*/
+	}
 }
 /*add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
@@ -840,6 +851,7 @@ function data_service_form(){
 	$args  = array(
 	// search only for Authors role
 	'role' => 'server_role',
+	'meta_key' => 'id_foto',
 	// order results by display_name
 	'orderby' => 'display_name'  );
 	$users_query = new WP_User_Query( $args );

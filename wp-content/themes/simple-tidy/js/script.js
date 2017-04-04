@@ -25,6 +25,7 @@
 		});
 		$('div.stepOne.stepService').addClass('stepTabActive')
 		$("div.alert").hide('slow/400/fast');
+		$("#formServer div.alert").show('slow/400/fast');
 		$('div.error-cont').hide('slow/400/fast');
 		$('div.loader').hide('slow/400/fast');
 		$('div.next2').hide('slow/400/fast');
@@ -720,7 +721,7 @@ function initAutocomplete() {
   // Create the autocomplete object, restricting the search to geographical
   // location types.
   autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('place')),
+      /** @type {!HTMLInputElement} */(document.getElementById('direccio')),
       {types: ['geocode']});
 
   // When the user selects an address from the dropdown, populate the address
