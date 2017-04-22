@@ -628,7 +628,7 @@ function save_custom_meta_box($post_id, $post, $update)
 
     // Checks for input and saves
     //if (isset($_POST[ 'meta-checkbox' ])) {
-    	$products_array = array();;
+    	$products_array = array();
     	$productos = $_POST[ 'meta-box-checkbox' ];
 	    for($i=0; $i < count($productos); $i++){
 		   echo $productos[$i];
@@ -1379,6 +1379,8 @@ function add_login_logout_register_menu( $items, $args ) {
 	if ( current_user_can('administrator') ) {
 	 	$items .= '<li><a href="/st/admin-list-services/">' . __( 'Ver Servicios' ) . '</a></li>';
 	 	$items .= '<li><a href="/st/add-server/">' . __( 'Agregar Servidor' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/agregar-producto/">' . __( 'Agregar Producto' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/agregar-paquete/">' . __( 'Agregar Paquete' ) . '</a></li>';
 	}
 	if ( current_user_can('server_role') ) {
 	 	$items .= '<li><a href="/st/server-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
@@ -1400,3 +1402,212 @@ function my_enqueue1() {
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 }
 add_action( 'wp_enqueue_scripts', 'my_enqueue1' );
+
+function save_product(){
+	if(isset($_POST['submit-product'])) {
+		if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POST['action'] == "new_post") {
+
+		    // Do some minor form validation to make sure there is content
+		    if (!empty($_POST['title'])) {
+		        $title =  $_POST['title'];
+		    } else {
+		        $resp = array('error' => true,'msg' => "Por favor,introduce el nombre del producto");
+				return $resp;
+				$_POST = array();
+				die();
+		    }
+		    if (!empty($_POST['description'])) {
+		        $description = $_POST['description'];
+		    } else {
+		        $resp = array('error' => true,'msg' => "Por favor,introduce la descripcion del producto");
+				return $resp;
+				$_POST = array();
+				die();
+		    }
+		    // Add the content of the form to $post as an array
+		    $new_post = array(
+		        'post_title'    => $title,
+		        'post_content'  => $description,
+		        'post_status'   => 'publish',           // Choose: publish, preview, future, draft, etc.
+		        'post_type' => 'st_products'  //'post',page' or use a custom post type if you want to
+		    );
+		    //save the new post
+		    $pid = wp_insert_post($new_post); 
+		    /*$resp = array('error' => false,'msg' => "Se ha agregado el producto a la plataforma");
+			return $resp;
+			die();*/
+		    /* if (isset ($pid)) {
+		        $resp = array('error' => false,'msg' => "Se ha agregado el producto a la plataforma");
+				return $resp;
+				die();
+		    } else {
+		        $resp = array('error' => true,'msg' => "Error en el servidor, intente luego");
+				return $resp;
+				die();
+		    }*/
+		    //insert taxonomies
+		}else{
+			$resp = array('error' => true,'msg' => "Ocurrio un error en servidor, intenta luego");
+			return $resp;
+			$_POST = array();
+			die();
+		}
+
+	}
+	/**/
+		
+	
+
+	
+}
+
+function save_package(){
+	if(isset($_POST['submit-package'])) {
+		if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' )){
+			if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['action'] ) &&  $_POST['action'] == "new_post") {
+
+			    // Do some minor form validation to make sure there is content
+
+			    
+					
+			    if (!empty($_POST['name_package'])) {
+			        $name_package =  $_POST['name_package'];
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce el nombre del paquete");
+					return $resp;
+					die();
+			    }
+			    if (!empty($_POST['description_package'])) {
+			        $description_package = $_POST['description_package'];
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce la descripcion del paquete");
+					return $resp;
+					die();
+			    }
+			    if (!empty($_POST['apos_package'])) {
+			        $apos_package = $_POST['apos_package'];
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce la cantidad de aposentos para este paquete");
+					return $resp;
+					die();
+			    }
+			    if (!empty($_POST['area_package'])) {
+			        $area_package = $_POST['area_package'];
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce el area en metros cuadrados que cubre este paquete");
+					return $resp;
+					die();
+			    }
+			    if (!empty($_POST['duracion_package'])) {
+			        $duracion_package = $_POST['duracion_package'];
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce la duracion servicio para el paquete");
+					return $resp;
+					die();
+			    }
+			    if (!empty($_POST['precio_package'])) {
+			        $precio_package = floatval($_POST['precio_package']);
+
+			    } else {
+			        $resp = array('error' => true,'msg' => "Por favor,introduce el precio del paquete");
+					return $resp;
+					die();
+			    }
+			    $products_array = array();
+			    if (!empty($_POST['meta_box_checkbox'])){
+			    	$products_form = count($_POST['meta_box_checkbox']);
+				    if ( $products_form > 0 && isset($_POST['meta_box_checkbox'])) {
+				        $productos = $_POST[ 'meta_box_checkbox' ];
+					    for($i=0; $i < count($productos); $i++){
+						   if (isset($productos[$i])) {
+						   		$products_array[] = $productos[$i];
+						   }
+						   
+						}
+				    } else {
+				        $resp = array('error' => true,'msg' => "Por favor,selecciona al menos un producto para este paquete");
+						return $resp;
+						die();
+				    }
+				    
+
+			    }else{
+			    	$resp = array('error' => true,'msg' => "Por favor,selecciona al menos un producto para este paquete");
+					return $resp;
+					$_POST = array();
+					die();
+			    }
+
+			    if (isset($_POST['my_image_upload_nonce']) || !empty($_POST['my_image_upload_nonce'])) {
+			    	if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' )) {
+			    		
+			    		if ($_FILES['my_image_upload']['size'] =! 0 && $_FILES['my_image_upload']['error'] == 0) {
+			    			
+			    			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+							require_once( ABSPATH . 'wp-admin/includes/file.php' );
+							require_once( ABSPATH . 'wp-admin/includes/media.php' );
+							
+							// Let WordPress handle the upload.
+							// Remember, 'my_image_upload' is the name of our file input in our form above.
+							$attachment_id = media_handle_upload( 'my_image_upload', 0);
+							$attachment_url = basename (get_attached_file( $attachment_id ));
+							$field_data = array(
+								'area_clean' => $apos_package,
+								'aposentos' => $area_package,
+								'duracion' => $duracion_package,
+								'price' => $precio_package
+							);
+							$post_data = array(
+								'post_title'    => $name_package,
+						        'post_content'  => $description_package,
+						        'post_status'   => 'publish', 
+								'post_type' => 'st_package'
+								);
+							$post_id = CFS()->save( $field_data, $post_data );
+							update_post_meta( $post_id, 'meta-product', $products_array );
+							set_post_thumbnail( $post_id, $attachment_id );
+							$resp = array('error' => false,'msg' => "Paquete subido con exito");
+							return $resp;
+							die();
+			    		}else{
+			    			$resp = array('error' => true,'msg' => "Por favor,agrega una imagen para el paquete");
+							return $resp;
+							die();
+			    		}
+
+			    		
+			    	}else{
+				    	$resp = array('error' => true,'msg' => "Por favor,agrega una imagen para el paquete");
+						return $resp;
+						die();
+				    }
+			    	
+				    // Add the content of the form to $post as an array
+			    }else{
+			    	$resp = array('error' => true,'msg' => "Por favor,agrega una imagen para el paquete");
+					return $resp;
+					die();
+			    }
+			    
+				
+			    
+
+			}else{
+				$resp = array('error' => true,'msg' => "Ocurrio un error en servidor, intenta luego");
+				return $resp;
+				$_POST = array();
+				die();
+			}
+		}else{
+			$resp = array('error' => true,'msg' => "Por favor, introduzca una imagen para el paquete");
+			return $resp;
+			$_POST = array();
+			die();
+		}
+	}
+	/**/
+		
+	
+
+	
+}

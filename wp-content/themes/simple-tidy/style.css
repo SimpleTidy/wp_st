@@ -1153,14 +1153,31 @@ div.info-service-page{
 	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 	padding: 0px;
 	position: relative;
-	height: 405px;
 	border: 1px;
+	display: block;
+    width: 55%;
+    float: right;
+    margin: 0 4%;
+}
+div#formPage {
+    display: table;
+    width: 90%;
+    margin: 0 auto;
+}
+section.service_options {
+    display: table;
+    width: 100%;
+}
+.info-rating-page {
+    width: 55%;
+    float: right;
+    margin: 0 4%;
+    padding: 0;
 }
 .btn-options {
     width: auto;
     display: inline;
     float: right;
-    padding: .5%;
     margin: 1%;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -1169,10 +1186,10 @@ div.info-service-page{
   	font-weight: bold;
 }
 div.read-page,div.proced-page,div.rating-service {
-    background-color: #317E14;
+    /*background-color: #317E14;*/
 }
 div.out-page,div.erase-page,div.out-rating {
-    background-color: #ba3131;
+    /*background-color: #ba3131;*/
 }
 .error_cont {
     display: table;
@@ -1598,4 +1615,14 @@ div.panelSteps {
     width: 85%;
     margin: 0px auto;
     padding: 2%;
+}
+div.photo-area{
+	display: table;
+	width: 100%;
+}
+div.products{
+	width: 100%;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+
 }

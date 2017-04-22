@@ -35,8 +35,6 @@ get_header(); ?>
 	
 	$hoy->setTimezone(new DateTimeZone("UTC"));
 	$date_service->setTimezone(new DateTimeZone("UTC"));
-	echo $hoy->format("Y-m-d H:i:s e") . "\n";
-	echo $date_service->format("Y-m-d H:i:s e") . "\n";
 	/*echo "respuesta";
 	var_dump($hoy < $date_service);*/
 	$check = check_pay_for_service($id);
@@ -134,7 +132,7 @@ get_header(); ?>
 								<?php echo $meta["estado"][0]?>
 						</div>	
 	 				</section>
-	 				<section class="col-md-12 service_options">
+	 				<section class="service_options">
 	 				<?php 
 	 					if ($meta["estado"][0] == "Abierto" ) {?>
 
@@ -142,7 +140,7 @@ get_header(); ?>
 		 							$check = check_pay_for_service($id);
 		 							if (!$check["exist"] && $hoy < $date_service && $meta["user"][0] == $usuario_login_id) {
 		 								?>
-		 								<div class="proced-page btn-options" >pagar servicio</div>
+		 								<div class="proced-page btn-options waves-effect waves-light btn" >pagar servicio</div>
 		 								<?php
 		 							}
 		 							
@@ -151,7 +149,7 @@ get_header(); ?>
 									<?php if ($meta["user"][0] == $usuario_login_id) {
 		 								?>
 
-										<div class="erase-page btn-options" on-click="">eliminar servicio</div>
+										<div class="erase-page btn-options waves-effect waves-light red btn" on-click="">eliminar servicio</div>
 									<?php
 		 							}
 		 							
@@ -166,14 +164,14 @@ get_header(); ?>
 		 									
 											<input type="hidden" value="<?php echo $check["meta"]?>" name="id_page">
 											<input type="hidden" value="<?php echo $id?>" name="id_service">
-											<div class="proced-page btn-options" id="ReachPageBtn">rechazar pago</div>
-											<div class="proced-page btn-options" id="confirmPageBtn">admitir pago</div>
+											<div class="proced-page btn-options waves-effect waves-light red btn" id="ReachPageBtn" style="font-size: 9px;">rechazar pago</div>
+											<div class="proced-page btn-options  waves-effect waves-light btn" id="confirmPageBtn" style="font-size: 9px;">admitir pago</div>
 		 								</div>
 		 								
 		 								<?php
 		 							}?>
 		 							<?php if ($meta["estado"][0] == "Abierto") {?>
-		 								<div class="erase-page btn-options" onclick="">eliminar servicio</div>
+		 								<div class="erase-page btn-options waves-effect waves-light red btn" onclick="" style="font-size: 9px;">eliminar servicio</div>
 		 								
 		 								<?php
 		 							}?>
@@ -182,7 +180,7 @@ get_header(); ?>
 							<?php } ?>
 						<?php } ?>
 						<?php if ($meta["estado"][0] == "Aprobado" && current_user_can('client_role') &&  $hoy > $date_service && $meta["user"][0] == $usuario_login_id) {?>
-							<div class="rating-service btn-options" id="RtingServiceEnd">calificar Servicio</div>
+							<div class="rating-service btn-options waves-effect waves-light btn" id="RtingServiceEnd">calificar Servicio</div>
 						<?php } ?>
 						<?php if ($meta["estado"][0] == "Terminado" && $hoy > $date_service) {?>
 							<span class="title_end">Comentario final:</span><p><?php echo $meta["comentarioFinal"][0];?></p>
@@ -236,7 +234,7 @@ get_header(); ?>
 			<div class="info-rating-page col-md-12 panel" style="display: none;">
 		 		<div class="header-info">
 		 			calificar Servicio
-		 			<i class="fa fa-star" aria-hidden="true"></i>
+		 			
 		 		</div>
 		 		<hr class="member_details_divider">
 		 		<div class="loader loader_pay">
@@ -253,7 +251,9 @@ get_header(); ?>
 				 </div>
 				</div>
 		 		<div id="formRating">
-			
+					<div class="error_cont">
+						<p></p>
+					</div>
 					
 					<span class="rating">
 				        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1" value="5">
@@ -267,16 +267,14 @@ get_header(); ?>
 				        <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" value="1">
 				        <label for="rating-input-1-1" class="rating-star"></label>
 					</span>
-					<textarea id="textarea1" class="materialize-textarea" placeholder="Deja un comentario final sobre tu servicio" value="" name="transaccion" ></textarea>
+					<textarea style="width: 90%; margin: 0px auto;display: block;" id="textarea1" class="materialize-textarea" placeholder="Deja un comentario final sobre tu servicio" value="" name="transaccion" ></textarea>
 			          
 					<input type="hidden" value="<?php echo $id?>" name="id_service"></input>
 					
 			        
-					<div class="error_cont">
-						<p></p>
-					</div>
-					<div id="SubmitEnd" class="read-page btn-options">Calificar</div>
-					<div class="out-rating btn-options" onclick="hidePageOption()">salir</div>
+					
+					<div id="SubmitEnd" class="read-page btn-options waves-effect waves-light btn">Calificar</div>
+					<div class="out-rating btn-options waves-effect waves-light red btn" onclick="hidePageOption()">salir</div>
 					
 				
 					
@@ -306,19 +304,34 @@ get_header(); ?>
 				</div>
 		 		<div id="formPage">
 			
+					<div class="input-field col s12">
+						<input type="text" value="" name="transaccion">
+						<label for="transaccion">N° transaccion</label>
+		        	</div>
+					<div class="input-field col s12">
+						<input type="text" value="" name="nameTrans">
+						<label for="nameTrans">Nombre</label>
+		        	</div>
+					<div class="input-field col s12">
+						<input type="text" value="" name="lastnameTrans">
+						<label for="lastnameTrans">Apellido</label>
+		        	</div>
+					<div class="input-field col s12">
+						<input type="text" value="" name="mountTrans">
+						<label for="mountTrans">Monto</label>
+		        	</div>
+					<div class="input-field col s12">
+						<input type="text" class="datepicker" value="" name="dateTrans">
+						<label for="dateTrans">Fecha</label>
+		        	</div>
 					
-					<input type="text" class="col-md-12" placeholder="N° transaccion" value="" name="transaccion"></input>
-					<input type="text" class="col-md-12" placeholder="Nombre" value="" name="nameTrans"></input>
-					<input type="text" class="col-md-12" placeholder="Apellido" value="" name="lastnameTrans"></input>
-					<input type="text" class="col-md-12" placeholder="Monto" value="" name="mountTrans"></input>
-					<input type="text" class="datepicker col-md-12" placeholder="Fecha" value="" name="dateTrans"></input>
-					<input type="hidden" class="col-md-12" value="Por Confirmar" name="statusTrans"></input>
-					<input type="hidden" value="<?php echo $id?>" name="id_service"></input>
+					<input type="hidden" value="Por Confirmar" name="statusTrans">
+					<input type="hidden" value="<?php echo $id?>" name="id_service">
 					<div class="error_cont">
 						<p></p>
 					</div>
-					<div id="SubmitPage" class="read-page btn-options">pagar</div>
-					<div class="out-page btn-options" onclick="hidePageOption()">salir</div>
+					<div id="SubmitPage" class="read-page btn-options waves-effect waves-light btn">pagar</div>
+					<div class="out-page btn-options waves-effect waves-light red btn" onclick="hidePageOption()">salir</div>
 					
 				
 					
