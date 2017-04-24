@@ -33,22 +33,12 @@ header#masthead {
 
 			</div><!-- #content -->
 		</div><!-- #primary -->
-		<div id="cont-2" class="site-content">
-
-			<div class="mos" style=" background-image: url(<?php bloginfo( 'url' ); ?>/wp-content/themes/tarful-child/images/mos-px.png?>">
-				<div id="area_principal" class="site-content">
-					<div id="phrase-principal" class="site-content">
-						<h1 class="tittle font-tit"><?php the_content();?></h1>
-						<div id="princ-buttons" class="site-content">
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!-- #cont-2 -->
+		
 		<div id="cont-3" class="site-content">
-			<h1>Hola estoy en el home</h1>
-
+			<div class="back_home">
+				<img src="<?php bloginfo('template_url');?>/images/st-logo.png" class="img-logo-register">
+			</div>
+			
 
 		</div><!-- #cont-3 -->
 

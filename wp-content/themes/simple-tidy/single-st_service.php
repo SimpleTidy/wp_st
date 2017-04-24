@@ -72,7 +72,13 @@ get_header(); ?>
 	 		</div>
 	 		<hr class="member_details_divider">
 	 		<div class="content-detail-print">
-	 			<?php echo get_avatar( $server->ID ) ?>
+	 			<?php $server_foto = get_user_meta( $server->ID, 'id_foto');
+	 			?>
+	 			<img alt="" src="<?php echo wp_get_attachment_url( $server_foto[0] );?>" srcset="<?php echo wp_get_attachment_url( $server_foto[0] );?>" class="avatar avatar-96 photo" height="96" width="96" style="
+    height: 96px;
+    width: 96px;
+    border-radius: 50%;
+">
 				<div class="name-detail-service">
 					<?php echo $server->user_login;?> 
 					<?php $imprime = check_data_server($server->ID);?>
@@ -101,7 +107,15 @@ get_header(); ?>
 	 			<section class="data-detail">
 	 				<section class="user_profile_detail">
 	 				
-							<?php echo get_avatar( $client->ID ) ?>
+							<?php $user_foto = get_user_meta( $client->ID, 'id_foto');
+				 			?>
+				 			<img alt="" src="<?php echo wp_get_attachment_url( $user_foto[0] );?>" srcset="<?php echo wp_get_attachment_url( $user_foto[0] );?>" class="avatar avatar-96 photo" height="96" width="96" style="
+    height: 96px;
+    width: 96px;
+    border-radius: 50%;
+">
+							
+							
 							<div class="name-detail-service">
 								<?php echo $client->user_login;?> 
 							</div>

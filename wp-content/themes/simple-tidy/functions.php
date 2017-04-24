@@ -506,6 +506,71 @@ function save_servers(){
 		/*}*/
 	}
 }
+
+function save_profile(){
+	if(isset($_POST['submit-profile'])) {
+
+		
+		global $wpdb, $current_user;
+		$current_user = wp_get_current_user();
+		$usuario_login_id = $current_user->ID;
+		$usuario_email = $current_user->user_email;
+		$usuario_login = $current_user->user_login;
+		/*if (isset($_POST['save_u'])) {*/
+			if (isset($_POST['my_image_upload_nonce'] ) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' ) && !empty($_POST['i_name']) && !empty($_POST['i_email']) && !empty($_POST['i_pass']) && !empty($_POST['i_pass2'])) {
+				if ($_POST['i_pass'] == $_POST['i_pass2']) {
+					if (email_exists( $usuario_email) == true && username_exists( $usuario_login) == true) {
+
+						require_once( ABSPATH . 'wp-admin/includes/image.php' );
+						require_once( ABSPATH . 'wp-admin/includes/file.php' );
+						require_once( ABSPATH . 'wp-admin/includes/media.php' );
+						
+						// Let WordPress handle the upload.
+						// Remember, 'my_image_upload' is the name of our file input in our form above.
+						$attachment_id = media_handle_upload( 'my_image_upload', 0);
+						$attachment_url = basename (get_attached_file( $attachment_id ));
+						
+						$user_id = wp_update_user( array( 
+							'ID' => $usuario_login_id, 
+							'first_name' => $_POST['i_name'],
+							'user_pass' => esc_attr( $_POST['i_pass'] ) ));
+						update_user_meta( $usuario_login_id, 'id_foto', $attachment_id );
+
+						if ( is_wp_error( $attachment_id ) ) {
+							$resp = array('error' => true,'msg' => "Ocurrio un error subiendo la imagen de perfil al servidor");
+							return $resp;
+							die();
+						} else {
+							$resp = array('error' => false,'msg' => "Perfil modificado con exito");
+							return $resp;
+							die();
+						}
+					}else{
+						$resp = array('error' => true,'msg' => "El usuario o el mail ya existen en nuestra plataforma");
+						return $resp;
+						die();
+					}
+				}else{
+					$resp = array('error' => true,'msg' => "Las contraseñas no coinciden");
+					return $resp;
+					die();
+				}
+			}else{
+				if (empty($_POST['i_name']) or empty($_POST['i_name']) or empty($_POST['i_user']) or empty($_POST['i_email']) or empty($_POST['i_pass']) or empty($_POST['i_pass2'])) {
+					# code...
+					$resp = array('error' => true,'msg' => "Tiene campos vacios");
+					return $resp;
+					die();
+				}
+
+				
+				
+			}
+			
+			
+		/*}*/
+	}
+}
 /*add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
     return '<a href="/wp-login.php?action=lostpassword" class="forgot" >olvide contraseña</a>';
@@ -1375,6 +1440,7 @@ function add_login_logout_register_menu( $items, $args ) {
  	if ( current_user_can('client_role') ) {
 	 	$items .= '<li><a href="/st/add-servicio/">' . __( 'Solicitar Servicio' ) . '</a></li>';
 	 	$items .= '<li><a href="/st/user-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/perfil/">' . __( 'Mi perfil' ) . '</a></li>';
 	} 
 	if ( current_user_can('administrator') ) {
 	 	$items .= '<li><a href="/st/admin-list-services/">' . __( 'Ver Servicios' ) . '</a></li>';
@@ -1384,6 +1450,7 @@ function add_login_logout_register_menu( $items, $args ) {
 	}
 	if ( current_user_can('server_role') ) {
 	 	$items .= '<li><a href="/st/server-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="/st/perfil/">' . __( 'Mi perfil' ) . '</a></li>';
 	}  
  	$items .= '<li><a href="' . wp_logout_url() . '">' . __( 'Cerrar Sesión' ) . '</a></li>';
  	

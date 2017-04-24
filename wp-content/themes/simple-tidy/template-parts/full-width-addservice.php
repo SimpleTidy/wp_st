@@ -50,6 +50,7 @@
 						$user_info = get_userdata( $user->ID );
 						 ?>
 						<label class="frame col-md-3" for="<?php echo $user->ID ?>" >
+
 						 	<div class="card">
 						 		<?php $user_id = $user->ID; $user_foto = get_user_meta( $user_id, 'id_foto');  ?> 
 							    <div class="card-image waves-effect waves-block waves-light" style="background-image: url(<?php echo wp_get_attachment_url( $user_foto[0] );?>); height: 200px; background-size: cover;background-position: 50%;">
@@ -62,7 +63,19 @@
 							      	<i class="material-icons right">more_vert</i>
 							      	<div class="stars">
 							      		<?php $data_service_server = check_data_server($user->ID);
-							      				echo $data_service_server["ranking"];
+
+							      			if ($data_service_server["ranking"] > 0) {
+							      				for ($i=0; $i < $data_service_server["ranking"]; $i++) { 
+							      					?>
+								      					<i class="fa fa-star" aria-hidden="true"></i>
+							      					<?php
+							      					
+							      				}
+							      			}else{
+							      				echo "No tiene servicios rankeados";
+							      			}
+							      				
+							      				
 							      		?>
 							      		
 							      	</div>
@@ -93,7 +106,7 @@
 		<div class="two">
 			<h1>¡Elige tu paquete!</h1>
 			<div class="panel panelSteps">
-
+				
 				<?php
 				// var_dump(data_service_form());
 				$packages = data_service_form_package();
@@ -103,7 +116,7 @@
 						$packages->the_post();
 					?>
 
-					<label class="frame_package col-md-12 package" for="<?php echo $packages->post->ID ?>" >
+					<label class="frame_package package" for="<?php echo $packages->post->ID ?>" >
 					
 					<?php
 						global $durat;
@@ -113,20 +126,27 @@
 						$price = $meta["price"][0];
 						$durat = $meta["duracion"][0];
 						?>
-						<img class="col-md-3" src="<?php echo  wp_get_attachment_thumb_url( $meta["_thumbnail_id"][0] );?>" >
+						<div class="foto_package" style="background-image:url(<?php echo  wp_get_attachment_thumb_url( $meta["_thumbnail_id"][0] );?>);">
+							
+						</div>
+						<div class="data_package">
+							<!-- <img class="col-md-3" src="<?php echo  wp_get_attachment_thumb_url( $meta["_thumbnail_id"][0] );?>" > -->
 							<div class="content-package col-md-9">
-								<div><?php the_title() ?></div>
-								<div><?php the_content() ?></div>      
+								<div class="title_package"><?php the_title() ?></div>
+								<div class="desciption_package"><?php the_content() ?></div>      
 					        	<input type="radio" class="package_aj" id="<?php echo $packages->post->ID ?>" style="visibility: hidden;" name="package" value="<?php echo $packages->post->ID ?>" >
-					        	<div>Precio: <?php echo $meta["price"][0]; ?></div> 
+					        	<div class="precio_package">Precio: <?php echo $meta["price"][0]; ?></div> 
 					        	
 					        	
-					        	<div>Aposentos: <?php echo $meta["aposentos"][0]; ?></div> 
-					        	<div>Area de limpieza: <?php echo $meta["area_clean"][0]; ?> m²</div> 
-					        	<div>Duracion: <?php echo $meta["duracion"][0]; ?> Horas</div>  
+					        	<div class="aposentos_package">Aposentos: <?php echo $meta["aposentos"][0]; ?></div> 
+					        	<div class="area_package">Area de limpieza: <?php echo $meta["area_clean"][0]; ?> m²</div> 
+					        	<div class="hr_package">Duracion: <?php echo $meta["duracion"][0]; ?> Horas</div>  
 				        	</div>
 				        	<input type="hidden" class="end_service" value="<?php echo $meta["duracion"][0]; ?>">
 				        	<input type="hidden" class="price_service" value="<?php echo $meta["price"][0]; ?>">
+						</div>
+
+						
 
 			        	
 						<?php

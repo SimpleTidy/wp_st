@@ -15,10 +15,16 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'simple-tidy' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'simple-tidy' ), 'WordPress' ); ?></a>
+			<!-- <a href="<?php echo esc_url( __( 'https://wordpress.org/', 'simple-tidy' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'simple-tidy' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'simple-tidy' ), 'simple-tidy', '<a href="http://underscores.me/" rel="designer">Underscores.me</a>' ); ?>
-		</div><!-- .site-info -->
+			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'simple-tidy' ), 'simple-tidy', '<a href="http://underscores.me/" rel="designer">Underscores.me</a>' ); ?> -->
+		  <span>Simple Tidy-Todos los derechos reservados | <?php echo date("Y"); ?></span>
+    </div><!-- .site-info -->
+    <div class="social-links">
+      <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+    </div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 

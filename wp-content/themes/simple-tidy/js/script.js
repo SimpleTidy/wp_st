@@ -261,8 +261,8 @@
 						
 		$("label.frame_package").removeClass('select_server')
 		$(this).addClass('select_server');
-		hours = $(this).children('.end_service').val();
-		price = $(this).children('.price_service').val();
+		hours = $(this).find('input.end_service').val();
+		price = $(this).find('.price_service').val();
 		$('div.three .price').val(price);
 		$('div.three .sum_final_h').val(hours);
 			

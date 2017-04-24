@@ -14,7 +14,7 @@
 				} // end while
 			} // end if
 		?>
-		<div class="back-screnn"></div>
+		<!-- <div class="back-screnn"></div>
 		<div class="col-md-2 menu-total">
 			<ul class="main-list">
 				<li><a href="<?php bloginfo('url');?>/dashboard/"> Dashboard</a></li>
@@ -39,8 +39,8 @@
 						<ul class="second-list">
 							<li><div class="show_services">Ver todos los servicios</div></li>
 							<li><div class="add_server">Agregar Servidor</div></li>
-							<!-- <li><div class="add_product">Agregar Producto</div></li>
-							<li>Agregar Paquete</li> -->
+							<li><div class="add_product">Agregar Producto</div></li>
+							<li>Agregar Paquete</li>
 						</ul>
 					</li>
 					
@@ -48,11 +48,11 @@
 				<li>Mi perfil</li>
 				<li><a href="<?php echo wp_logout_url(home_url()); ?>">Logout</a></li>
 			</ul>
-		</div>
-		<div class="work-area col-md-10 offset2">
+		</div> -->
+		<div class="work-area">
 
-			<div class="col-md-12 menu-icon"><i class="fa fa-bars fa-2x clickefect" aria-hidden="true"></i></div>
-			
+			<!-- <div class="col-md-12 menu-icon"><i class="fa fa-bars fa-2x clickefect" aria-hidden="true"></i></div>
+			 -->
 			<div class="col-md-12 load-content">
 				<!-- ALL PERMISSIONS -->
 				<div class="partial_dashboard content-panel init">
@@ -114,12 +114,15 @@
 												
 												?>
 												<tr>
-										      
-											      <td><div class="profile_pic"><?php echo get_avatar( $user_info->ID );?></div><?php echo $user_info->user_login;?></td>
+										      		<?php 
+										      			$user_foto = get_user_meta( $user_info->ID, 'id_foto');
+										      		?>
+										      		
+											      <td><div class="profile_pic"><img alt="" src="<?php echo wp_get_attachment_url( $user_foto[0] );?>" class="avatar avatar-96 photo" height="96" width="96"></div><?php echo $user_info->user_login;?></td>
 											      <td><?php echo $meta["date_service"][0]?></td>
 											      <td><?php echo $meta["hora_inicio"][0]."-".$meta["hora_fin"][0]?></td>
 											      <td><?php echo$meta["estado"][0]?></td>
-											      <td><a href="<?php echo get_permalink(); ?>" >ver detalles</a></td>
+											      <td><a href="<?php echo get_permalink(); ?>" class="waves-effect waves-light btn">ver detalles</a></td>
 											    </tr>
 												<?php
 												
@@ -135,6 +138,7 @@
 					<?php 
 					$current_user = wp_get_current_user();
 					$pave = data_dashboard_client($current_user->ID);
+					$user_foto = get_user_meta( $current_user->ID, 'id_foto');
 					if (current_user_can('client_role') ) {?>
 
 						<div class="rigth-dash">
@@ -190,12 +194,14 @@
 												
 												?>
 												<tr>
-										      
-											      <td><div class="profile_pic"><?php echo get_avatar( $server_info->ID );?></div><?php echo $server_info->user_login;?></td>
+										      		<?php 
+										      			$server_foto = get_user_meta( $server_info->ID, 'id_foto');
+										      		?>
+											      <td><div class="profile_pic"><img alt="" src="<?php echo wp_get_attachment_url( $server_foto[0] );?>" class="avatar avatar-96 photo" height="96" width="96"></div><?php echo $server_info->user_login;?></td>
 											      <td><?php echo $meta["date_service"][0]?></td>
 											      <td><?php echo "I: ".date("H:i a",strtotime($meta["hora_inicio"][0]))."</br>"."F: ".date("H:i a",strtotime($meta["hora_fin"][0]))?></td>
 											      <td><?php echo$meta["estado"][0]?></td>
-											      <td><a href="<?php echo get_permalink(); ?>" >ver detalles</a></td>
+											      <td><a href="<?php echo get_permalink(); ?>" class="waves-effect waves-light btn">ver detalles</a></td>
 											    </tr>
 												<?php
 												
@@ -255,34 +261,7 @@
 				</div>
 				<!-- END ALL PERMISSIONS-->
 
-				<?php 
-					$current_user = wp_get_current_user(); 
-					if (current_user_can('administrator') ) {?>
-				<!-- ADMIN PERMISSIONS -->
-				<div class="partial_server content-panel init panel"><?php charge_template_server(); ?>
-				</div>
-				<div class="partial_all_services content-panel init panel"> <?php charge_template_allservice(); ?>
-				</div>
-				<div class="partial_new_product content-panel init panel"> <?php charge_template_newproduct(); ?>
-				</div>
-				<!-- END ADMIN PERMISSIONS-->
-				<?php } ?>
-
-				<?php if (current_user_can('client_role') ) {?>
-				<!-- USER PERMISSIONS -->
-				<div class="partial_service content-panel init panel"><?php charge_template_service(); ?></div>
-				<div class="partial_all_services_user content-panel init panel"> <?php charge_template_allservice_user(); ?>
-				</div>
-				<!-- END USER PERMISSIONS-->
-				<?php } ?>
-
-				<?php $current_user = wp_get_current_user(); 
-					if (current_user_can('server_role') ) {?>
-				<!-- SERVER PERMISSIONS -->
-				<div class="partial_all_services_server content-panel init panel"> <?php charge_template_allservice_server(); ?>
-				</div>
-				<!-- END SERVER PERMISSIONS-->
-				<?php } ?>
+				
 
 				
 				
