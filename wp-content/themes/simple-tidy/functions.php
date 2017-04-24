@@ -1438,19 +1438,19 @@ function add_login_logout_register_menu( $items, $args ) {
  
  if ( is_user_logged_in() ) {
  	if ( current_user_can('client_role') ) {
-	 	$items .= '<li><a href="/st/add-servicio/">' . __( 'Solicitar Servicio' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/user-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/perfil/">' . __( 'Mi perfil' ) . '</a></li>';
+	 	$items .= '<li><a href="'. get_page_link(237) .'">' . __( 'Solicitar Servicio' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(244).'">' . __( 'Mis Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(851).'">' . __( 'Mi perfil' ) . '</a></li>';
 	} 
 	if ( current_user_can('administrator') ) {
-	 	$items .= '<li><a href="/st/admin-list-services/">' . __( 'Ver Servicios' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/add-server/">' . __( 'Agregar Servidor' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/agregar-producto/">' . __( 'Agregar Producto' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/agregar-paquete/">' . __( 'Agregar Paquete' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(242).'">' . __( 'Ver Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(248).'">' . __( 'Agregar Servidor' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(282).'">' . __( 'Agregar Producto' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(284).'">' . __( 'Agregar Paquete' ) . '</a></li>';
 	}
 	if ( current_user_can('server_role') ) {
-	 	$items .= '<li><a href="/st/server-list-services/">' . __( 'Mis Servicios' ) . '</a></li>';
-	 	$items .= '<li><a href="/st/perfil/">' . __( 'Mi perfil' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(246).'">' . __( 'Mis Servicios' ) . '</a></li>';
+	 	$items .= '<li><a href="'.get_page_link(851).'">' . __( 'Mi perfil' ) . '</a></li>';
 	}  
  	$items .= '<li><a href="' . wp_logout_url() . '">' . __( 'Cerrar Sesión' ) . '</a></li>';
  	
